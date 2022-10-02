@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  	  layout:decorate="~{layouts/layout}">
+  	  
+<div layout:fragment="content">
+	<div class="form-group">
+	  <label class="form-label mt-4">로그인</label>
+	  <div class="form-floating mb-3">
+	    <input type="text" class="form-control" id="floatingInput" placeholder="Id">
+	    <label for="floatingInput">Id</label>
+	  </div>
+	  <div class="form-floating">
+	    <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+	    <label for="floatingPassword">Password</label>
+	  </div>
+	  <br>
+	  <br>
+	  <div class="form-group" align="center">
+	  	<button type="submit" class="btn btn-primary">로그인</button>
+	  	<button type="submit" class="btn btn-primary">회원가입</button>
+	  </div>
+	</div>
+</div>
+
+</html>
