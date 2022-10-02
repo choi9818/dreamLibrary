@@ -30,9 +30,17 @@ dependencies {
 	///////////////////////////////////////////////
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	// Thymeleaf Layout Dialect
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.1.0'
+	// security
+	//implementation 'org.springframework.boot:spring-boot-starter-security'
+	//implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+	//testImplementation 'org.springframework.security:spring-security-test'
+	//implementation 'org.springframework.boot:spring-boot-starter-validation'
 }
 
 tasks.named('test') {
