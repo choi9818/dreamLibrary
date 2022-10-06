@@ -1,6 +1,6 @@
 package com.project.entity;
 
-public class Comment {
+public class Comment{
 	Long id;
 	String content;
 	String writer;
