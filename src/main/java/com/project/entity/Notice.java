@@ -18,12 +18,12 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "post")
+@Table(name = "notice")
 @Getter @Setter @ToString
-public class Post extends BaseTimeEntity {
+public class Notice extends BaseTimeEntity {
 	
 	@Id
-	@Column(name = "post_id")
+	@Column(name = "notice_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
@@ -36,8 +36,8 @@ public class Post extends BaseTimeEntity {
 	@JoinColumn(name = "writer")
 	private Member member;			// 작성자
 		/*
-		 * 회원 한명이 여러 개의 게시물을 작성할 수 있음
-		 * 	-> Post : Member = 다 : 일
+		 * 회원 한명이 여러 개의 공지사항을 작성할 수 있음
+		 * 	-> Notice : Member = 다 : 일
 		 * 	-> ManyToOne
 		 *  
 		 * */
