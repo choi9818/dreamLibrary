@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -29,7 +30,7 @@ public class Inter extends BaseTimeEntity {
 	private Long id;
 	
 	@OneToOne(fetch = FetchType.LAZY)
-	@Column(name = "member_id")
+	@JoinColumn(name = "member_id")
 	private Member member;
 		/*
 		 * 회원 한명당 한개의 관심도서목록을 가질 수 있음
