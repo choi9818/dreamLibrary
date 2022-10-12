@@ -11,7 +11,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.project.constant.Role;
+import com.project.dto.MemberFormDto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -20,11 +23,11 @@ import lombok.ToString;
 @Entity
 @Table(name = "member")
 @Getter @Setter @ToString
-public class Member extends BaseTimeEntity {
+public class Member{
 	
 	@Id
 	@Column(name = "member_id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column(unique = true)
@@ -40,5 +43,6 @@ public class Member extends BaseTimeEntity {
 	
 	@Enumerated(EnumType.STRING)
 	private Role role;
-
+	
+	
 }

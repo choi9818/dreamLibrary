@@ -26,7 +26,7 @@ public class Reserv extends BaseTimeEntity {
 	
 	@Id
 	@Column(name = "reserv_id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@OneToOne(fetch = FetchType.LAZY)

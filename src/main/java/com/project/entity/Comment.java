@@ -22,7 +22,7 @@ public class Comment extends BaseTimeEntity {
 	
 	@Id
 	@Column(name = "comment_id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

@@ -24,7 +24,7 @@ public class Notice extends BaseTimeEntity {
 	
 	@Id
 	@Column(name = "notice_id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	private String title;			// 제목
