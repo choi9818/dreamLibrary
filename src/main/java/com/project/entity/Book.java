@@ -1,7 +1,8 @@
 package com.project.entity;
 
-import javax.persistence.Entity;
+import java.time.LocalDate;
 
+import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
@@ -9,6 +10,7 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import com.project.constant.BookStatus;
+import com.project.dto.BookFormDto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -30,7 +32,7 @@ public class Book extends BaseTimeEntity {
 	
 	private String publisher;			// 출판사
 	
-	private String publishedDate;		// 출판일자
+	private LocalDate publishedDate;	// 출판일자
 	
 	@Lob
 	private String bookDetail;			// 설명
@@ -42,6 +44,17 @@ public class Book extends BaseTimeEntity {
 	@Enumerated(EnumType.STRING)
 	private BookStatus bookStatus;		// 대출예약상태
 	
-	private String imageSrc;			// 이미지소스
+	public void updateBook(BookFormDto bookFormDto) {
+		this.isbn = bookFormDto.getIsbn();
+		this.category = bookFormDto.getCategory();
+		this.title = bookFormDto.getTitle();
+		this.author = bookFormDto.getAuthor();
+		this.publisher = bookFormDto.getPublisher();
+		this.publishedDate = bookFormDto.getPublishedDate();
+		this.bookDetail = bookFormDto.getBookDetail();
+		this.place = bookFormDto.getPlace();
+		this.count = bookFormDto.getCount();
+		this.bookStatus = bookFormDto.getBookStatus();
+	}
 
 }
