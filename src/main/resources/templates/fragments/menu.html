@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
   	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
   	  layout:decorate="~{layouts/layout}">
   	  
 <!-- 
@@ -50,7 +51,7 @@
 
   <!-- 로고 -->
   <div class="app-brand demo">
-    <a href="index.html" class="app-brand-link">
+    <a href="/" class="app-brand-link">
       <span class="app-brand-logo demo">
 		<img src="/img/logo.png" alt="logo" height="40" width="40">
 	  </span>
@@ -128,13 +129,13 @@
 	  <span class="menu-header-text">post</span>
 	</li>
 	<li class="menu-item">
-	  <a href="notice/list" class="menu-link">
+	  <a a href="/notice/read" class="menu-link">
 	    <i class="menu-icon tf-icons bx bx-clipboard"></i>
 	    <div data-i18n="Basic">공지사항</div>
 	  </a>
 	</li>
 	<li class="menu-item">
-	  <a href="cards-basic.html" class="menu-link">
+	  <a href="/post/list" class="menu-link">
 	    <i class="menu-icon tf-icons bx bx-chat"></i>
 	    <div data-i18n="Basic">회원게시판</div>
 	  </a>
@@ -149,13 +150,13 @@
 	    <i class="menu-icon tf-icons bx bx-library"></i>
 	    <div data-i18n="Layouts">내 서재</div>
 	  </a>
-	  <ul class="menu-sub">
+	  <ul class="menu-sub" sec:authorize="hasAnyAuthority('ROLE_USER')">
 	    <li class="menu-item">
-	      <a href="layouts-without-menu.html" class="menu-link">
+	      <a href="/mypage/member" class="menu-link">
 	        <div data-i18n="Without menu">내정보</div>
 	      </a>
 	    </li>
-	    <li class="menu-item">
+	    <li class="menu-item" >
 	      <a href="layouts-without-menu.html" class="menu-link">
 	        <div data-i18n="Without menu">관심도서목록</div>
 	      </a>
@@ -169,23 +170,23 @@
 	</li>
 	
 	<!-- 관리자 -->
-	<li class="menu-header small text-uppercase">
+	<li class="menu-header small text-uppercase" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
 	  <span class="menu-header-text">admin</span>
 	</li>
-	<li class="menu-item">
+	<li class="menu-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
 	  <a href="cards-basic.html" class="menu-link">
 	    <i class="menu-icon tf-icons bx bx-user"></i>
 	    <div data-i18n="Basic">회원관리</div>
 	  </a>
 	</li>
-	<li class="menu-item">
+	<li class="menu-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
 	  <a href="cards-basic.html" class="menu-link">
 	    <i class="menu-icon tf-icons bx bx-book"></i>
 	    <div data-i18n="Basic">도서관리</div>
 	  </a>
 	</li>
-	<li class="menu-item">
-	  <a href="cards-basic.html" class="menu-link">
+	<li class="menu-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+	  <a a href="/notice/list" class="menu-link">
 	    <i class="menu-icon tf-icons bx bx-clipboard"></i>
 	    <div data-i18n="Basic">공지사항관리</div>
 	  </a>

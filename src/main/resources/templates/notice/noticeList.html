@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  	  layout:decorate="~{layouts/layout}">
+ <!-- 사용자 스크립트 추가 -->
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+
+        $(document).ready(function(){
+            $("#searchBtn").on("click",function(e) {
+                e.preventDefault();
+                page(0);
+            });
+        });
+
+        function page(page){
+            var searchDateType = $("#searchDateType").val();
+            var searchBy = $("#searchBy").val();
+            var searchQuery = $("#searchQuery").val();
+
+            location.href="/notice/list/" + page + "?searchDateType=" + searchDateType
+            	+ "&searchBy=" + searchBy
+            	+ "&searchQuery=" + searchQuery;
+        }
+        
+    </script>
+</th:block>
+  	  
+  	  
+<div layout:fragment="content">
+	<h4 class="fw-bold py-3 mb-4">공지사항
+		<span>
+		 <a th:href="@{/notice/new}">
+	        <button type="button" class="btn btn-primary">등록
+	        </button>
+		 </a>
+		</span>
+	</h4>
+	<!-- Basic Bootstrap Table -->
+    <div class="card">
+<!-- 		<h5 class="card-header">공지사항</h5> -->
+		<div class="table-responsive text-nowrap">
+			<form th:action="@{'/notice/list/'+${notices.number}}" role="form" method="get" th:object="${notices}">
+				<table class="table">
+                    <thead>
+                      <tr><th>no</th><th>title</th><th>writer</th><th>date</th><th>Actions</th></tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                    							<!-- notices : controller에서 model 객체로 넘겨 받은  -->
+                      <tr th:each="item, status:${notices.getContent()}">
+                        <td th:text="${item.id}"></td>
+                        <td><a th:href="'/notice/'+${item.id}" th:text="${item.title}"></a></td>
+                        <td th:text="${item.createdBy}"></td>
+                        <td th:text="${#temporals.format(item.regTime, 'yyyy-MM-dd')}"></td>
+                        <td>
+                          <div class="dropdown">
+                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                              <i class="bx bx-dots-vertical-rounded"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                              <a class="dropdown-item" th:href="'/notice/'+${item.id}">
+                              	<i class="bx bx-edit-alt me-1"></i> Edit</a>
+                              <a class="dropdown-item" th:href="'/notice/delete/'+${item.id}">
+                              <!--  th:href="'/notice/delete'+${item.id}" th:href="@{/notice/delete(id=${item.id})}" -->
+                                <i class="bx bx-trash me-1"></i> Delete</a>
+                            </div>
+                          </div><!-- dropdown -->
+                        </td>
+                      </tr><!-- 1row -->                                           
+                    </tbody>
+                  </table>
+                  <!-- 페이징 -->
+                  <div th:with="start=${(notices.number/maxPage)*maxPage + 1}, end=(${(notices.totalPages == 0) 
+        			? 1 : (start + (maxPage - 1) < notices.totalPages 
+        			? start + (maxPage - 1) : notices.totalPages)})" >
+        			<nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+
+                <li class="page-item" th:classappend="${notices.first}?'disabled'">
+                    <a th:onclick="'javascript:page(' + ${notices.number - 1} + ')'" aria-label='Previous' class="page-link">
+                        <span aria-hidden='true'>Previous</span>
+                    </a>
+                </li>
+
+                <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${notices.number eq page-1}?'active':''">
+                    <a th:onclick="'javascript:page(' + ${page - 1} + ')'" th:inline="text" class="page-link">[[${page}]]</a>
+                </li>
+
+                <li class="page-item" th:classappend="${notices.last}?'disabled'">
+                    <a th:onclick="'javascript:page(' + ${notices.number + 1} + ')'" aria-label='Next' class="page-link">
+                        <span aria-hidden='true'>Next</span>
+                    </a>
+                </li>
+
+            </ul>
+            </nav>
+        </div>
+		<!-- 검색 -->
+        <div class="pagination justify-content-center" th:object="${postSearchDto}">
+            <select th:field="*{searchDateType}" class="form-select form-select-sm" id="smallSelect">
+                <option value="all">전체기간</option>
+                <option value="1d">1일</option>
+                <option value="1w">1주</option>
+                <option value="1m">1개월</option>
+                <option value="6m">6개월</option>
+            </select>
+            <select th:field="*{searchBy}" class="form-control" style="width:auto;">
+                <option value="title">제목</option>
+                <option value="createdBy">작성자</option>
+            </select>
+            <input th:field="*{searchQuery}" type="text" class="form-control" placeholder="검색어를 입력해주세요">
+            <button id="searchBtn" type="submit" class="btn btn-primary">검색</button>
+        </div>
+			</form>
+		</div>
+	</div>
+		<!--/ Basic Bootstrap Table -->
+</div>
+</html>

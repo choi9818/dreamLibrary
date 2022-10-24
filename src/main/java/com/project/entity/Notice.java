@@ -1,26 +1,31 @@
 package com.project.entity;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.project.dto.NoticeFormDto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "notice")
 @Getter @Setter @ToString
-public class Notice extends BaseTimeEntity {
+public class Notice extends BaseEntity {
 	
 	@Id
 	@Column(name = "notice_id")
@@ -32,22 +37,19 @@ public class Notice extends BaseTimeEntity {
 	@Lob
 	private String content;			// 내용
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "writer")
-	private Member member;			// 작성자
-		/*
-		 * 회원 한명이 여러 개의 공지사항을 작성할 수 있음
-		 * 	-> Notice : Member = 다 : 일
-		 * 	-> ManyToOne
-		 *  
-		 * */
-	
-	private LocalDateTime regDate;	// 등록일자
-	
-	private LocalDateTime editDate;	// 수정일자
-	
-	private int viewCount;			// 조회수
-	
-	private String file;			// 첨부파일
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	private Member member;			// 작성자(member의 name
+//		/*
+//		 * 회원 한명이 여러 개의 공지사항을 작성할 수 있음
+//		 * 	-> Notice : Member = 다 : 일
+//		 * 	-> ManyToOne
+//		 *  
+//		 * */
+//	
+	//공지 업데이트 로직
+	public void updateNotice(NoticeFormDto noticeFormDto) {
+		this.title = noticeFormDto.getTitle();
+		this.content = noticeFormDto.getContent();
+	}
 
 }
