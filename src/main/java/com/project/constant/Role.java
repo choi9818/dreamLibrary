@@ -1,5 +1,5 @@
 package com.project.constant;
 
 public enum Role {
-	USER,ADMIN
+	USER,ADMIN //user role
 }

@@ -4,7 +4,7 @@ package com.project.constant;
 
 public enum BookStatus {
 	
-	POSSIBLE,		// 대출예약 가능
-	IMPOSSIBLE;		// 대출예약 불가능
+	POSSIBLE,		// 대출 예약 가능
+	IMPOSSIBLE;		// 대출 예약 불가능
 
 }

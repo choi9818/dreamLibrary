@@ -13,7 +13,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import lombok.Getter;
 import lombok.Setter;
 
-@EntityListeners(value = {AuditingEntityListener.class})	// Auditing 적용
+@EntityListeners(value = {AuditingEntityListener.class})	// Auditing적용
 @MappedSuperclass		
 	// 공통 매핑 정보가 필요할 때 사용하는 어노테이션. 부모클래스를 상속받는 자식클래스에 매핑정보만 제공
 @Getter

@@ -40,7 +40,7 @@ public class NoticeImg extends BaseTimeEntity {
 	 * 
 	 * */
 	
-	// 이미지 정보 업데이트 메소드
+	// 이미지 정보 업데이트 method
 	public void updatePostImg(String oriImgName, String imgName, String imgUrl) {
 		this.oriImgName = oriImgName;
 		this.imgName = imgName;
