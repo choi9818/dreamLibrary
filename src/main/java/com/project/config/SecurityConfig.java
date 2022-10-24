@@ -30,7 +30,7 @@ public class SecurityConfig{
                 .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))//로그아웃 url
                 .logoutSuccessUrl("/");
         http.authorizeHttpRequests()//시큐리티 처리에 authorizeHttpRequests 이용한다는 것 의미
-        	.mvcMatchers("/","/member/**","/notice/**","/post/**").permitAll()//모든 사용자가 인증(로그인) 없이 해당 경로에 접근할 수 있도록 설정
+        	.mvcMatchers("/","/member/**","/notice/**","/post/**", "/search/**").permitAll()//모든 사용자가 인증(로그인) 없이 해당 경로에 접근할 수 있도록 설정
         	.mvcMatchers("/assets/**", "/fonts/**", "/js/**", "/img/**",
    				 "/libs/**", "/scss/**", "/tasks/**").permitAll()
         	//.mvcMatchers("/mypage/**").hasRole("USER")
