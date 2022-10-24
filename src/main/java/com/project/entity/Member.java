@@ -66,7 +66,7 @@ public class Member{
 		member.setPassword(password);
 		member.setBirthday(memberFormDto.getBirthday());
 		member.setPhone(memberFormDto.getPhone());
-		member.setRole(Role.USER);
+		member.setRole(Role.ADMIN);
 		return member;
 	}
 

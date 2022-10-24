@@ -69,7 +69,7 @@
   
   	<!-- 홈 -->
 	<li class="menu-item active">
-	  <a href="index.html" class="menu-link">
+	  <a href="/" class="menu-link">
 	    <i class="menu-icon tf-icons bx bx-home-circle"></i>
 	    <div data-i18n="Analytics">Home</div>
 	  </a>
@@ -100,7 +100,7 @@
 	  <span class="menu-header-text">Search</span>
 	</li>
 	<li class="menu-item">
-	  <a href="cards-basic.html" class="menu-link">
+	  <a href="/search/integrated" class="menu-link">
 	    <i class="menu-icon tf-icons bx bx-search"></i>
 	    <div data-i18n="Basic">통합검색</div>
 	  </a>
@@ -157,7 +157,7 @@
 	      </a>
 	    </li>
 	    <li class="menu-item" >
-	      <a href="layouts-without-menu.html" class="menu-link">
+	      <a href="/inter" class="menu-link">
 	        <div data-i18n="Without menu">관심도서목록</div>
 	      </a>
 	    </li>
@@ -180,10 +180,22 @@
 	  </a>
 	</li>
 	<li class="menu-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
-	  <a href="cards-basic.html" class="menu-link">
+	  <a href="javascript:void(0);" class="menu-link menu-toggle">
 	    <i class="menu-icon tf-icons bx bx-book"></i>
 	    <div data-i18n="Basic">도서관리</div>
 	  </a>
+	  <ul class="menu-sub">
+	    <li class="menu-item">
+	      <a href="/admin/book/new" class="menu-link">
+	        <div data-i18n="Without menu">도서등록</div>
+	      </a>
+	    </li>
+	    <li class="menu-item">
+	      <a href="/admin/books" class="menu-link">
+	        <div data-i18n="Without menu">도서관리</div>
+	      </a>
+	    </li>
+	  </ul>
 	</li>
 	<li class="menu-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
 	  <a a href="/notice/list" class="menu-link">
