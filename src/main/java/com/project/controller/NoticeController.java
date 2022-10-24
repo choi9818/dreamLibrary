@@ -52,7 +52,7 @@ public class NoticeController {
 			noticeService.saveNotice(noticeFormDto, multipartFile);
 		} catch (Exception e) {
 			model.addAttribute("errorMessage", "공지 등록 중 에러가 발생하였습니다.");
-			return "contents/noticeWrite";				
+			return "notice/noticeWrite";				
 		}
 		return "redirect:/notice/list";//상품 정상적으로 등록 되었다면 다시 리스트로 이동
 	}
@@ -79,7 +79,7 @@ public class NoticeController {
 			noticeService.updateNotice(noticeFormDto, noticeImgFileList);//공지 수정 로직 호출
 		} catch (IOException e) {
 			model.addAttribute("errorMessage", "공지 등록 중 에러가 발생하였습니다.");
-			return "contents/noticeWrite";
+			return "notice/noticeWrite";
 		}		
 		return "redirect:/notice/list";
 	}
