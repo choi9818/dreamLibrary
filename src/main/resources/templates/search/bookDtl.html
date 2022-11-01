@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  	  layout:decorate="~{layouts/layout}">
+<head>
+	<meta name="_csrf" th:content="${_csrf.token}" />
+	<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+</head>
+
+<!-- 사용자 스크립트 추가 -->
+<th:block layout:fragment="script">
+	<script th:inline="javascript">
+		// 툴팁
+		var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+		var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+		  return new Tooltip(tooltipTriggerEl);
+		});
+		
+		// 예약 신청
+		function reserv(){
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			
+			var url = "/reserv";
+			var paramData = {
+					bookIsbn : $("#bookIsbn").val()
+			};
+			
+			var param = JSON.stringify(paramData);
+			
+			$.ajax({
+				url : url,
+				type : "POST",
+				contentType : "application/json",
+				data : param,
+				beforeSend : function(xhr){
+					xhr.setRequestHeader(header, token);
+				},
+				dataType : "json",
+				cache : false,
+				success : function(result, status){
+					alert("예약 신청되었습니다.");
+					location.href='/';
+				},
+				error : function(jqXHR, status, error){
+					
+					if(jqXHR.status == '401'){
+						alert('로그인 후 이용해주세요');
+						location.href='/members/login';
+					} else{
+						alert(jqXHR.responseText);
+					}
+					
+				}
+			});
+		}
+		
+		// 관심도서등록
+		function addInter(){
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			
+			var url = "/inter";
+			var paramData = {
+					bookIsbn : $("#bookIsbn").val()
+			};
+			
+			var param = JSON.stringify(paramData);
+			
+			$.ajax({
+				url : url,
+				type : "POST",
+				contentType : "application/json",
+				data : param,
+				beforeSend : function(xhr){
+					xhr.setRequestHeader(header, token);
+				},
+				dataType : "json",
+				cache : false,
+				success : function(result, status){
+					alert("관심도서목록에 추가되었습니다");
+					location.href='/';
+				},
+				error : function(jqXHR, status, error){
+					
+					if(jqXHR.status == '401'){
+						alert('로그인 후 이용해주세요');
+						location.href='/members/login';
+					} else{
+						alert(jqXHR.responseText);
+					}
+					
+				}
+			});
+		}
+	</script>
+</th:block>
+
+<!-- 사용자 css 추가 -->
+<th:block layout:fragment="css">
+	<style>
+		@font-face {
+			font-family: 'Pretendard';
+			font-weight: 300;
+			font-display: swap;
+			src: local('Pretendard Light'), url('./woff2/Pretendard-Light.woff2') format('woff2'), url('./woff/Pretendard-Light.woff') format('woff');
+		}
+		@font-face {
+			font-family: 'Pretendard';
+			font-weight: 400;
+			font-display: swap;
+			src: local('Pretendard Regular'), url('./woff2/Pretendard-Regular.woff2') format('woff2'), url('./woff/Pretendard-Regular.woff') format('woff');
+		}
+		@font-face {
+			font-family: 'Pretendard';
+			font-weight: 700;
+			font-display: swap;
+			src: local('Pretendard Bold'), url('./woff2/Pretendard-Bold.woff2') format('woff2'), url('./woff/Pretendard-Bold.woff') format('woff');
+		}
+		#content {
+			font-family: 'Pretendard';
+			font-weight: 300;
+			width: 75%;
+			margin: 0 auto;
+		}
+		#bookdtl-header {
+			margin-top: 20px;
+			margin-bottom: 20px;
+		}
+		#category-badge { 
+			float: left; 
+			margin-right: 10px;
+		}
+		#book-title { 
+			float: left;
+			margin-right: 10px;
+		}
+		#bookdtl-img { 
+			width: 250px; 
+			margin: 0 auto;
+			box-shadow: 0 0.25rem 1rem rgb(161 172 184 / 45%);
+			margin-top: 20px;
+			margin-bottom: 20px;
+		}
+		#bookdtl-img img { 
+			width: 100%;
+			height: auto;
+		}
+		#bookdtl-info {
+			margin-top: 40px;
+			margin-bottom: 20px;
+		}
+		.accordion-button {
+			font-size: 0.5em;
+		}
+		.accordion-body {
+			padding: 40px;
+		}
+		.table > tbody > tr > td {
+			padding-top: 5px;
+			padding-bottom: 5px;
+		}
+		.info-head {
+			font-family: 'Pretendard';
+			font-weight: 400;
+		}
+		.reservStatus {
+			float: left;
+			margin-right: 10px;
+			margin-bottom: 0;
+		}
+	</style>
+</th:block>
+
+<!-- content -->
+<div layout:fragment="content" id="content">
+  <input type="hidden" id="bookIsbn" th:value="${book.isbn}">
+  
+  <!-- 카테고리 / 제목 / 관심등록 -->
+  <div id="bookdtl-header" class="pagination justify-content-center">
+    <div id="category-badge">
+      <p><span class="badge rounded-pill bg-label-secondary">[[${book.category}]]</span></p>
+    </div>
+    
+    <div id="book-title">
+      <h3><b>[[${book.title}]]</b></h3>
+    </div>
+    
+    <div id="bookdtl-header addinter">
+      <button type="button" class="btn btn-icon rounded-pill me-2 btn-outline-danger btn-sm" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true" 
+      		  title="<i class='bx bx-heart bx-xs'></i> <span>관심도서등록</span>"
+      		  onclick="addInter()">
+  		<span class="tf-icons bx bx-heart"></span>
+	  </button>
+    </div>
+  </div>
+  
+  <!-- 도서이미지 -->
+  <div id="bookdtl-img">
+    <div>
+      <img th:src="${book.bookImgDtoList[0].imgUrl}" th:alt="${book.title}">
+    </div>
+  </div>
+  
+  <!-- 상세정보 블럭 : 도서정보 / 상세설명 / 대출정보 -->
+  <div id="bookdtl-info">
+	<div id="accordionIcon" class="accordion accordion-without-arrow">
+	  
+	  <!-- 도서정보 -->
+	  <div class="accordion-item card active">
+	    <h2 class="accordion-header text-body d-flex justify-content-between" id="accordionIconThree">
+	      <button type="button" class="accordion-button" data-bs-toggle="collapse" data-bs-target="#accordionIcon-3" aria-expanded="true" aria-controls="accordionIcon-3" role="tabpanel">
+	        도서정보
+	      </button>
+	    </h2>
+	    <div id="accordionIcon-3" class="accordion-collapse collapse show" data-bs-parent="#accordionIcon">
+	      <div class="accordion-body">
+	        <div class="table-responsive">
+	          <table class="table table-borderless">
+	            <colgroup><col width="20%"/><col width="80%"/></colgroup>
+	            <tbody>
+	              <tr><td class="info-head">ISBN</td><td>[[${book.isbn}]]</td></tr>
+	              <tr><td class="info-head">카테고리</td><td>[[${book.category}]]</td></tr>
+	              <tr><td class="info-head">도서명</td><td>[[${book.title}]]</td></tr>
+	              <tr><td class="info-head">저자</td><td>[[${book.author}]]</td></tr>
+	              <tr><td class="info-head">출판사</td><td>[[${book.publisher}]]</td></tr>
+	              <tr><td class="info-head">출판일자</td><td>[[${book.publishedDate}]]</td></tr>
+	            </tbody>
+	          </table>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <!-- 상세정보 -->
+	  <div class="accordion-item card">
+	    <h2 class="accordion-header text-body d-flex justify-content-between" id="accordionIconOne">
+	      <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordionIcon-1" aria-controls="accordionIcon-1">
+	        상세정보
+	      </button>
+	    </h2>
+	
+	    <div id="accordionIcon-1" class="accordion-collapse collapse" data-bs-parent="#accordionIcon">
+	      <div class="accordion-body">
+	        <div class="table-responsive">
+	          <table class="table table-borderless">
+	            <colgroup><col width="20%"/><col width="80%"/></colgroup>
+	            <tbody>
+	              <tr><td class="info-head">상세설명</td><td>[[${book.bookDetail}]]</td></tr>
+	            </tbody>
+	          </table>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	
+	  <!-- 대출정보 -->
+	  <div class="accordion-item card">
+	    <h2 class="accordion-header text-body d-flex justify-content-between" id="accordionIconTwo">
+	      <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordionIcon-2" aria-controls="accordionIcon-2">
+	        대출정보
+	      </button>
+	    </h2>
+	    <div id="accordionIcon-2" class="accordion-collapse collapse" data-bs-parent="#accordionIcon">
+	      <div class="accordion-body">
+	        <div class="table-responsive">
+	          <table class="table table-borderless">
+	            <colgroup><col width="20%"/><col width="80%"/></colgroup>
+	            <tbody>
+	              <tr><td class="info-head">열람실</td><td>[[${book.place}]]</td></tr>
+	              <tr>
+	                <td class="info-head">대출예약가능여부</td>
+	                <td>
+	                  <div th:if="${#strings.equals(book.bookStatus, 'POSSIBLE')}">
+                        <p class="reservStatus">대출예약가능</p>
+                        <button type="button" class="btn btn-primary btn-sm" onclick="reserv()">예약신청</button>
+                      </div>
+                      <div th:unless="${#strings.equals(book.bookStatus, 'POSSIBLE')}">
+                        <p class="reservStatus"><span style="color: red;">대출예약불가</span></p>
+                        <button type="button" class="btn btn-primary btn-sm" onclick="reserv()">예약신청</button>
+                      </div>
+	                </td>
+	              </tr>
+	              <tr><td class="info-head">대출예약가능횟수</td><td>[[${book.count}]] / 3</td></tr>
+	            </tbody>
+	          </table>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	</div>
+  </div>
+  
+
+</div>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  	  layout:decorate="~{layouts/layout}">
+<head>
+	<meta name="_csrf" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+
+<!-- 스크립트 -->
+<th:block layout:fragment="script">
+	<script th:inline="javascript">
+	</script>
+</th:block>
+
+<!-- css -->
+<th:block layout:fragment="css">
+	<style>
+		@font-face {
+			font-family: 'Pretendard';
+			font-weight: 300;
+			font-display: swap;
+			src: local('Pretendard Light'), url('./woff2/Pretendard-Light.woff2') format('woff2'), url('./woff/Pretendard-Light.woff') format('woff');
+		}
+		@font-face {
+			font-family: 'Pretendard';
+			font-weight: 600;
+			font-display: swap;
+			src: local('Pretendard SemiBold'), url('./woff2/Pretendard-SemiBold.woff2') format('woff2'), url('./woff/Pretendard-SemiBold.woff') format('woff');
+		}
+		#content {
+			width: 75%;
+			margin: 0 auto;
+			font-family: 'Pretendard';
+			font-weight: 300;
+		}
+		#tab-head {
+			font-family: 'Pretendard';
+			font-weight: 600;
+		}
+		.table-responsive { 
+			text-align:center;
+		}
+		.table {
+			width: 70%; 
+			margin-left: auto; 
+			margin-right: auto;
+		}
+
+	</style>
+</th:block>
+
+<!-- content -->
+<div layout:fragment="content" id="content">
+  <div class="content-wrap">
+    <!-- 탭 -->
+    <div class="nav-align-top">
+      <!-- 탭 제목 -->
+      <ul class="nav nav-pills mb-3" role="tablist" id="tab-head">
+        <li class="nav-item">
+          <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-home" aria-controls="navs-pills-top-home" aria-selected="true">
+            이용시간
+          </button>
+        </li>
+        <li class="nav-item">
+          <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-profile" aria-controls="navs-pills-top-profile" aria-selected="false">
+            오시는길
+          </button>
+        </li>
+      </ul>
+      
+      <!-- 탭 내용 -->
+      <div class="tab-content">
+        <!-- 이용시간 -->
+	    <div class="tab-pane fade show active" id="navs-pills-top-home" role="tabpanel">
+	      <div class="table-responsive">
+	        <table class="table">
+	          <thead><tr><th colspan="2"><h4>이용시간</h4></th></tr></thead>
+	          <tbody>
+	            <tr><td>화 ~ 금</td><td>09 : 00 ~ 22 : 00</td></tr>          
+	            <tr><td>토 ~ 일</td><td>09 : 00 ~ 17 : 00</td></tr>
+	          </tbody>
+	        </table>
+	      </div>
+	      <br><br>
+	      <div class="table-responsive">
+	        <table class="table">
+	          <thead><tr><th><h4>휴관일</h4></th></tr></thead>
+	          <tbody>
+	            <tr><td>매주 월요일</td></tr>          
+	            <tr><td>법정 공휴일 (일요일 제외)</td></tr>
+	          </tbody>
+	        </table>
+	      </div>
+	    </div>
+
+        <!-- 오시는길 -->
+	    <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
+	      <div class="row">
+	        <!-- 지도영역 -->
+	        <div class="col-md-6">
+			  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3166.5127497031776!2d126.88378871526712!3d37.472224779815754!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357b610d4caa8155%3A0x768502998687d8e0!2z7Zi47ISc64yA67Kk7LKY7YOA7JuM!5e0!3m2!1sko!2skr!4v1666941790499!5m2!1sko!2skr" width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+	        </div>
+	        <!-- 설명영역 -->
+	        <div class="col-md-6">
+	          <br><h4>드림도서관</h4><br>
+	          <p><b>주소</b></p>
+	          <p>(08503) 서울특별시 금천구 가산동 가산디지털1로 70</p>
+	          <br>
+	          <p><b>주차</b></p>
+	          <p>30분 무료 (15분 500원, 1일 최대 20,000원)</p>
+	        </div>
+	      </div>
+	    </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</html>

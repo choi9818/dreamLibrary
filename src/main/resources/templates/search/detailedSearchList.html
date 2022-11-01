@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  	  layout:decorate="~{layouts/layout2}">
+
+<!-- 사용자 스크립트 추가 -->
+<th:block layout:fragment="script">
+	<script th:inline="javascript">
+		$(document).ready(function() {
+			$("#searchBtn").on("click", function(e) {
+				e.preventDefault();
+				page(0);
+			});
+		});
+		
+		function page(page) {
+			var searchTitle = $("#searchTitle").val();
+			var searchAuthor = $("#searchAuthor").val();
+			var searchPublisher = $("#searchPublisher").val();
+			var searchCategory = $("#searchCategory").val();
+			var startDate = $("#startDate").val();
+			var endDate = $("#endDate").val();
+			
+			location.href="/search/detailed/" + page 
+						 + "?searchTitle=" + searchTitle 
+						 + "&searchAuthor=" + searchAuthor
+						 + "&searchPublisher=" + searchPublisher
+						 + "&searchCategory=" + searchCategory
+						 + "&startDate=" + startDate
+						 + "&endDate=" + endDate;
+		}
+	</script>
+</th:block>
+
+<!-- 사용자 css 추가 -->
+<th:block layout:fragment="css">
+	<style>
+		@font-face {
+			font-family: 'Pretendard';
+			font-weight: 300;
+			font-display: swap;
+			src: local('Pretendard Light'), url('./woff2/Pretendard-Light.woff2') format('woff2'), url('./woff/Pretendard-Light.woff') format('woff');
+		}
+		#content {
+			font-family: 'Pretendard';
+			font-weight: 300;
+			width: 75%;
+			margin: 0 auto;
+		}
+		.row {
+			margin: 13px;
+		}
+		.col {
+			height: 580px;
+			margin-bottom: 20px;
+		}
+		.card {
+			margin-left: 10px;
+			margin-right: 10px;
+			box-shadow: none;
+		}
+		#image-section {
+			height: 320px;
+			text-align: center;
+			line-height: 320px;
+		}
+		.card-img-top {
+			height: auto;
+			width: 200px;
+			margin-top: 20px;
+			margin-bottom: 10px;
+			border-radius: 0;
+			box-shadow: 0 0.25rem 1rem rgb(161 172 184 / 45%); 
+		}
+		#info-section {
+			height: 260px;
+		}
+		.card-title {
+			height: 41px;
+		}
+		#card-text-category {
+			float: left;
+			margin-right: 5px;
+		}
+		#searchBtn {
+			border: none;
+		}
+		#layout-navbar2 {
+			height: 370px;
+		}
+	</style>
+</th:block>
+
+<!-- content -->
+<div layout:fragment="content" id="content">
+  <form th:action="@{'/search/detailed/' + ${books.number}}" role="form" method="get" th:object="${books}">
+    
+    <!-- 검색창 -->
+    <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+    	 id="layout-navbar" th:object="${bookSearchDto}">
+      <div style="width: 9%;">
+        <input style="text-align: center;" type="text" readonly class="form-control-plaintext" id="exampleFormControlReadOnlyInputPlain1" value="도서명" />
+      </div>
+      <div style="width: 3%;">
+        <p class="demo-inline-spacing">
+   	      <a class="tf-icons bx bx-filter-alt" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"></a>
+	    </p>
+      </div>
+	  <div style="width: 82%;">
+	    <input type="text" class="form-control border-0 shadow-none" placeholder="찾으시는 도서명을 입력하세요" th:field="*{searchTitle}">
+        <input type="hidden" th:value="${bookSearchDto.searchTitle}" id="searchTitle">
+	  </div>
+	  <div style="width: 6%;">
+	    <button type="submit" class="btn btn-icon me-2 btn-outline-primary" id="searchBtn">
+          <span class="tf-icons bx bx-search fs-4 lh-0"></span>
+        </button> 
+	  </div>
+    </nav>
+    
+    <!-- 상세검색 필터 : 저자, 출판사, 카테고리, 출판일자 -->
+    <div class="collapse" id="collapseExample" th:object="${bookSearchDto}">
+      <form class="d-flex p-3">
+        <div class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar2">
+          <div class="table-responsive" style="margin-left: auto; margin-right: auto;">
+            <table class="table table-borderless">
+              <colgroup>
+                <col width="20%"/><col width="30%"/><col width="10%"/><col width="30%"/><col width="10%"/>
+              </colgroup>
+              <tbody>
+    	        <tr>
+    	          <td><input type="text" readonly class="form-control-plaintext" id="exampleFormControlReadOnlyInputPlain1" value="저자" /></td>
+    	          <td colspan="4"><input class="form-control form-control-sm" type="text" placeholder="찾으시는 저자를 입력하세요" th:field="*{searchAuthor}"></td>
+    	        </tr>
+    	        <tr>
+    	          <td><input type="text" readonly class="form-control-plaintext" id="exampleFormControlReadOnlyInputPlain1" value="출판사" /></td>
+    	          <td colspan="4"><input class="form-control form-control-sm" type="text" placeholder="찾으시는 출판사를 입력하세요" th:field="*{searchPublisher}"></td>
+    	        </tr>
+    	        <tr>
+    	          <td><input type="text" readonly class="form-control-plaintext" id="exampleFormControlReadOnlyInputPlain1" value="카테고리" /></td>
+    	          <td class="mb-3" colspan="4">
+    	            <select class="form-select form-select-sm" th:field="*{searchCategory}">
+    	              <option value="전체">전체</option>
+    	              <option value="소설">소설</option>
+    	              <option value="시/에세이">시/에세이</option>
+    	              <option value="인문">인문</option>
+    	              <option value="경제/경영">경제/경영</option>
+    	              <option value="가정/육아">가정/육아</option>
+    	              <option value="요리">요리</option>
+    	              <option value="건강">건강</option>
+    	              <option value="취미/실용/스포츠">취미/실용/스포츠</option>
+    	              <option value="자기계발">자기계발</option>
+    	              <option value="컴퓨터/IT">컴퓨터/IT</option>
+    	              <option value="정치/사회">정치/사회</option>
+    	              <option value="역사/문화">역사/문화</option>
+    	              <option value="종교">종교</option>
+    	              <option value="예술/대중문화">예술/대중문화</option>
+    	              <option value="기술/공학">기술/공학</option>
+    	              <option value="과학">과학</option>
+    	              <option value="청소년">청소년</option>
+    	              <option value="유아">유아</option>
+    	              <option value="어린이">어린이</option>
+    	            </select>
+    	          </td>
+    	        </tr>
+    	        <tr>
+    	          <td><input type="text" readonly class="form-control-plaintext" id="exampleFormControlReadOnlyInputPlain1" value="출판일" /></td>
+    	          <td><input class="form-control-sm" type="date" id="html5-date-input" th:field="*{startDate}" style="width: 100%;" /></td>
+    	          <td><label class="form-label">부터</label></td>
+    	          <td><input class="form-control-sm" type="date" id="html5-date-input" th:field="*{endDate}" style="width: 100%;" /></td>
+    	          <td><label class="form-label">까지</label></td>
+    	        </tr>
+    	        <tr style="text-align:center">
+    	          <td colspan="5">
+    	            <br>
+    	            <button type="reset" class="btn btn-outline-primary btn-sm">초기화</button>
+    	            <button type="submit" class="btn btn-primary btn-sm">검색</button>
+    	          </td>
+    	        </tr>
+    	      </tbody>
+            </table>
+    	    <input type="hidden" th:value="${bookSearchDto.searchAuthor}" id="searchAuthor">
+   	        <input type="hidden" th:value="${bookSearchDto.searchPublisher}" id="searchPublisher">
+   	        <input type="hidden" th:value="${bookSearchDto.searchCategory}" id="searchCategory">
+   	        <input type="hidden" th:value="${bookSearchDto.startDate}" id="startDate">
+   	        <input type="hidden" th:value="${bookSearchDto.endDate}" id="endDate">
+          </div>
+        </div>
+      </form>
+    </div>
+    
+    <!-- 
+    <div class="collapse" id="collapseExample" th:object="${bookSearchDto}">
+      <div class="d-flex p-3">
+        <div class="table-responsive">
+    	  <table class="table table-borderless">
+    	    <tbody>
+    	      <tr>
+    	        <td><label class="form-label">저자</label></td>
+    	        <td><input class="form-control form-control-sm" type="text" placeholder="저자" th:field="*{searchAuthor}"></td>
+    	      </tr>
+    	      <tr>
+    	        <td><label class="form-label">출판사</label></td>
+    	        <td><input class="form-control form-control-sm" type="text" placeholder="출판사" th:field="*{searchPublisher}"></td>
+    	      </tr>
+    	      <tr>
+    	        <td><label class="form-label">카테고리</label></td>
+    	        <td class="mb-3">
+    	          <select class="form-select form-select-sm" th:field="*{searchCategory}">
+    	            <option value="전체">전체</option>
+    	            <option value="소설">소설</option>
+    	            <option value="시/에세이">시/에세이</option>
+    	            <option value="인문">인문</option>
+    	            <option value="경제/경영">경제/경영</option>
+    	            <option value="가정/육아">가정/육아</option>
+    	            <option value="요리">요리</option>
+    	            <option value="건강">건강</option>
+    	            <option value="취미/실용/스포츠">취미/실용/스포츠</option>
+    	            <option value="자기계발">자기계발</option>
+    	            <option value="컴퓨터/IT">컴퓨터/IT</option>
+    	            <option value="정치/사회">정치/사회</option>
+    	            <option value="역사/문화">역사/문화</option>
+    	            <option value="종교">종교</option>
+    	            <option value="예술/대중문화">예술/대중문화</option>
+    	            <option value="기술/공학">기술/공학</option>
+    	            <option value="과학">과학</option>
+    	            <option value="청소년">청소년</option>
+    	            <option value="유아">유아</option>
+    	            <option value="어린이">어린이</option>
+    	          </select>
+    	        </td>
+    	      </tr>
+    	      <tr>
+    	        <td><label class="form-label">출판일</label></td>
+    	        <td><input class="form-control-sm" type="date" id="html5-date-input" th:field="*{startDate}" /></td>
+    	        <td><label class="form-label">부터</label></td>
+    	        <td><input class="form-control-sm" type="date" id="html5-date-input" th:field="*{endDate}" /></td>
+    	        <td><label class="form-label">까지</label></td>
+    	      </tr>
+    	    </tbody>
+    	  </table>
+    	  <input type="hidden" th:value="${bookSearchDto.searchAuthor}" id="searchAuthor">
+   	      <input type="hidden" th:value="${bookSearchDto.searchPublisher}" id="searchPublisher">
+   	      <input type="hidden" th:value="${bookSearchDto.searchCategory}" id="searchCategory">
+   	      <input type="hidden" th:value="${bookSearchDto.startDate}" id="startDate">
+   	      <input type="hidden" th:value="${bookSearchDto.endDate}" id="endDate">
+        </div>
+      </div>
+    </div>
+     -->
+
+    <!-- 도서목록 -->
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      <th:block th:each="book, status: ${books.getContent()}">
+        <div class="col">
+          <div class="card h-100">
+            <!-- 이미지 -->
+            <div id="image-section">
+              <a th:href="'/search/bookdtl/' + ${book.isbn}">
+                <img th:src="${book.imgUrl}" th:alt="${book.title}" class="card-img-top"/>
+              </a>
+            </div>
+			<!-- 정보 -->
+            <div class="card-body" id="info-section">
+              <h5 class="card-title"><b>[[${book.title}]]</b></h5>
+              <p class="card-text">[[${book.author}]]<small class="text-muted">&nbsp;&nbsp;지음</small></p>
+              <p class="card-text">[[${book.publisher}]]<small class="text-muted">&nbsp;&nbsp;펴냄</small></p>
+              <p class="card-text">[[${book.publishedDate}]]<small class="text-muted">&nbsp;&nbsp;출간</small></p>
+              <p class="card-text" id="card-text-category" th:switch="${book.category}">
+              	<span class="badge rounded-pill bg-label-secondary" th:case="'소설'">소설</span>
+                <span class="badge rounded-pill bg-label-secondary" th:case="'시/에세이'">시/에세이</span>
+                <span class="badge rounded-pill bg-label-secondary" th:case="'인문'">인문</span>
+                <span class="badge rounded-pill bg-label-secondary" th:case="'경제/경영'">경제/경영</span>
+                <span class="badge rounded-pill bg-label-secondary" th:case="'가정/육아'">가정/육아</span>
+                <span class="badge rounded-pill bg-label-secondary" th:case="'요리'">요리</span>
+                <span class="badge rounded-pill bg-label-secondary" th:case="'건강'">건강</span>
+                <span class="badge rounded-pill bg-label-secondary" th:case="'취미/실용/스포츠'">취미/실용/스포츠</span>
+                <span class="badge rounded-pill bg-label-secondary" th:case="'자기계발'">자기계발</span>
+                <span class="badge rounded-pill bg-label-secondary" th:case="'컴퓨터/IT'">컴퓨터/IT</span>
+                <span class="badge rounded-pill bg-label-secondary" th:case="'정치/사회'">정치/사회</span>
+                <span class="badge rounded-pill bg-label-secondary" th:case="'역사/문화'">역사/문화</span>
+                <span class="badge rounded-pill bg-label-secondary" th:case="'종교'">종교</span>
+                <span class="badge rounded-pill bg-label-secondary" th:case="'예술/대중문화'">예술/대중문화</span>
+                <span class="badge rounded-pill bg-label-secondary" th:case="'기술/공학'">기술/공학</span>
+                <span class="badge rounded-pill bg-label-secondary" th:case="'과학'">과학</span>
+                <span class="badge rounded-pill bg-label-secondary" th:case="'청소년'">청소년</span>
+                <span class="badge rounded-pill bg-label-secondary" th:case="'유아'">유아</span>
+                <span class="badge rounded-pill bg-label-secondary" th:case="'어린이'">어린이</span>
+              </p>
+              <div th:if="${#strings.equals(book.bookStatus, 'POSSIBLE')}">
+                <p class="card-text"><span class="badge rounded-pill bg-label-info">대출예약가능</span></p>
+              </div>
+              <div th:unless="${#strings.equals(book.bookStatus, 'POSSIBLE')}">
+                <p class="card-text"><span class="badge rounded-pill bg-label-danger">대출예약불가</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </th:block>
+    </div><br>
+    
+    <!-- 페이지네이션 -->
+	<div th:with="start=${(books.number/maxPage)*maxPage + 1},
+				  end=(${(books.totalPages == 0) ? 1 : (start + (maxPage - 1) < books.totalPages ? start + (maxPage - 1) : books.totalPages)})">
+	  <nav aria-label="Page navigation">
+	    <ul class="pagination justify-content-center">
+	      <li class="page-item first" th:classappend="${books.first}?'disabled'">
+	        <a class="page-link" href="#" th:onclick="'javascript:page(' + 0 + ')'"><i class="bx bx-chevrons-left"></i></a>
+	      </li>
+	      <li class="page-item prev" th:classappend="${books.number eq 0}?'disabled':''">
+	        <a class="page-link" th:onclick="'javascript:page(' + ${books.number -1} + ')'"><i class="bx bx-chevron-left"></i></a>
+	      </li>
+	      <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}"
+	      	  th:classappend="${books.number eq page-1}?'active':''">
+	        <a th:onclick="'javascript:page(' + ${page - 1} + ')'" th:inline="text" class="page-link">[[${page}]]</a>
+	      </li>
+	      <li class="page-item next" th:classappend="${books.last}?'disabled'">
+	        <a class="page-link" href="#" th:onclick="'javascript:page(' + ${books.number + 1} + ')'"><i class="bx bx-chevron-right"></i></a>
+	      </li>
+	      <li class="page-item last" th:classappend="${books.last}?'disabled'">
+	        <a class="page-link" href="#" th:onclick="'javascript:page(' + ${books.totalPages - 1} + ')'"><i class="bx bx-chevrons-right"></i></a>
+	      </li>
+	    </ul>
+	  </nav>			  
+	</div>
+  </form>
+</div>
+</html>

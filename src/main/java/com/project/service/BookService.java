@@ -98,12 +98,30 @@ public class BookService {
 	}
 	
 	/**
-	 * 도서 검색
+	 * 통합 검색
 	 * 
 	 * */
 	@Transactional(readOnly = true)
-	public Page<BookListDto> getSearchBookPage(BookSearchDto bookSearchDto, Pageable pageable) {
-		return bookRepository.getSearchBookPage(bookSearchDto, pageable);
+	public Page<BookListDto> getInteSearchBookPage(BookSearchDto bookSearchDto, Pageable pageable) {
+		return bookRepository.getInteSearchBookPage(bookSearchDto, pageable);
+	}
+	
+	/**
+	 * 신착자료 검색
+	 * 
+	 * */
+	@Transactional(readOnly = true)
+	public Page<BookListDto> getSearchRecentBookPage(BookSearchDto bookSearchDto, Pageable pageable) {
+		return bookRepository.getSearchRecentBookPage(bookSearchDto, pageable);
+	}
+	
+	/**
+	 * 상세 검색
+	 * 
+	 * */
+	@Transactional(readOnly = true)
+	public Page<BookListDto> getDetailedSearchBookPage(BookSearchDto bookSearchDto, Pageable pageable) {
+		return bookRepository.getDetailedSearchBookPage(bookSearchDto, pageable);
 	}
 
 }

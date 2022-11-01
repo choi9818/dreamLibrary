@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  	  layout:decorate="~{layouts/layout}">
+<head>
+	<meta name="_csrf" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+
+<!-- 사용자 스크립트 추가 -->
+<th:block layout:fragment="script">
+	<script th:inline="javascript">
+		function deleteReservBook(reservBookId){
+	        var token = $("meta[name='_csrf']").attr("content");
+	        var header = $("meta[name='_csrf_header']").attr("content");
+	
+	        var url = "/reserv/" + reservBookId;
+	        var paramData = {
+	        		reservBookId : reservBookId,
+	        };
+	        
+	        var param = JSON.stringify(paramData);
+	
+	        $.ajax({
+	            url      : url,
+	            type     : "POST",
+	            contentType : "application/json",
+	            data : param,
+	            beforeSend : function(xhr){
+	                /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+	                xhr.setRequestHeader(header, token);
+	            },
+	            dataType : "json",
+	            cache   : false,
+	            success  : function(result, status){
+	            	alert('예약 취소되었습니다');
+	                location.href='/reserv/' + [[${page}]];
+	            },
+	            error : function(jqXHR, status, error){
+	
+	                if(jqXHR.status == '401'){
+	                    alert('로그인 후 이용해주세요');
+	                    location.href='/members/login';
+	                } else{
+	                    alert(jqXHR.responseJSON.message);
+	                }
+	
+	            }
+	        });
+	    }
+	</script>
+</th:block>
+
+<!-- 사용자 css 추가 -->
+<th:block layout:fragment="css">
+	<style>
+		@font-face {
+			font-family: 'Pretendard';
+			font-weight: 300;
+			font-display: swap;
+			src: local('Pretendard Light'), url('./woff2/Pretendard-Light.woff2') format('woff2'), url('./woff/Pretendard-Light.woff') format('woff');
+		}
+		#content {
+			font-family: 'Pretendard';
+			font-weight: 300;
+			width: 75%;
+			margin: 0 auto;
+		}
+		#content > h4 {
+			text-align: center;
+			margin-top: 10px;
+			margin-bottom: 30px;
+		}
+		.table > thead > tr {
+			text-align: center;
+		}
+		#bookImg {
+			width: 100%;
+			height: auto;
+		}
+	</style>
+</th:block>
+
+<!-- content -->
+<div layout:fragment="content" id="content">
+  <h4>예약도서목록</h4>
+  
+  <!-- 도서목록 -->
+  <div class="table-responsive">
+    <table class="table">
+      <colgroup>
+        <col width="17%" />
+        <col width="38%" />
+        <col width="12%" />
+        <col width="12%" />
+        <col width="14%" />
+        <col width="7%" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>이미지</th>
+          <th>도서명</th>
+          <th>저자</th>
+          <th>출판사</th>
+          <th>예약일자</th>
+          <th>취소</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="reservBook : ${reservBooks.getContent()}">
+          <td class="text-center align-middle">
+            <a th:href="'/search/bookdtl/' + ${reservBook.isbn}">
+              <img id="bookImg" th:src="${reservBook.imgUrl}" th:alt="${reservBook.title}"/>
+            </a>
+          </td>
+          <td th:text=${reservBook.title}></td>
+          <td th:text=${reservBook.author}></td>
+          <td th:text=${reservBook.publisher}></td>
+          <td th:text=${reservBook.reservDate}></td>
+          <td>
+            <button class="btn rounded-pill me-2 btn-outline-danger btn-sm" type="button" th:value="${reservBook.reservBookId}" onclick="deleteReservBook(this.value)">
+              X
+            </button>
+          </td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
+  
+  <!-- 페이지네이션 -->
+  <div th:with="start=${(reservBooks.number/maxPage)*maxPage + 1}, end=(${(reservBooks.totalPages == 0) ? 1 : (start + (maxPage - 1) < reservBooks.totalPages ? start + (maxPage - 1) : reservBooks.totalPages)})">
+    <nav aria-label="Page navigation">
+      <ul class="pagination justify-content-center">
+        <li class="page-item prev" th:classappend="${reservBooks.number eq 0}?'disabled':''">
+          <a th:href="@{'/reserv/' + ${reservBooks.number-1}}" class="page-link">
+            <i class="bx bx-chevron-left"></i>
+          </a>
+        </li>
+        <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${reservBooks.number eq page-1}?'active':''">
+          <a th:href="@{'/reserv/' + ${page-1}}" th:inline="text" class="page-link">[[${page}]]</a>
+        </li>
+        <li class="page-item" th:classappend="${reservBooks.number+1 ge reservBooks.totalPages}?'disabled':''">
+          <a th:href="@{'/reserv/' + ${reservBooks.number+1}}" class="page-link">
+            <i class="bx bx-chevron-right"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+</div>
+
+</html>

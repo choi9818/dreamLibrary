@@ -4,19 +4,22 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
+@Table(name = "inter_book")
 @Getter @Setter
 public class InterBook extends BaseTimeEntity {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "inter_book_id")
 	private Long id;
 	
@@ -39,5 +42,14 @@ public class InterBook extends BaseTimeEntity {
 		 * 	-> Many To One
 		 *  
 		 * */
+	
+	//--------------------------------------------
+	// 관심도서목록 생성
+	public static InterBook createInterBook(Inter inter, Book book) {
+		InterBook interBook = new InterBook();
+		interBook.setInter(inter);
+		interBook.setBook(book);
+		return interBook;
+	}
 
 }

@@ -26,16 +26,40 @@
 <!-- 사용자 css 추가 -->
 <th:block layout:fragment="css">
 	<style>
+		@font-face {
+			font-family: 'Pretendard';
+			font-weight: 300;
+			font-display: swap;
+			src: local('Pretendard Light'), url('./woff2/Pretendard-Light.woff2') format('woff2'), url('./woff/Pretendard-Light.woff') format('woff');
+		}
+		#content {
+			font-family: 'Pretendard';
+			font-weight: 300;
+			width: 75%;
+			margin: 0 auto;
+		}
+		.table > thead > tr {
+			text-align: center;
+		}
 		#smallSelect { width: 100px; margin-right: 5px; float: left; }
 		#smallInput { width: 250px; margin-right: 5px; float: left; }
 	</style>
 </th:block>
 
 <!-- content -->
-<div layout:fragment="content" style="width: 75%; margin: 0 auto">
+<div layout:fragment="content" id="content">
   <form th:action="@{'/admin/books/' + ${books.number}}" role="form" method="get" th:object="${books}">
     <div class="table-responsive">
       <table class="table table-sm table-hover">
+        <colgroup>
+          <col width="10%" />
+          <col width="10%" />
+          <col width="36%" />
+          <col width="13%" />
+          <col width="13%" />
+          <col width="13%" />
+          <col width="5%" />
+        </colgroup>
         <thead>
           <tr>
             <th>ISBN</th>
@@ -44,7 +68,7 @@
             <th>저자</th>
             <th>출판사</th>
             <th>출판일자</th>
-            <th>예약가능횟수</th>
+            <th>예약</th>
           </tr>
         </thead>
         <tbody>
@@ -55,11 +79,11 @@
             <td th:text="${book.author}"></td>
             <td th:text="${book.publisher}"></td>
             <td th:text="${book.publishedDate}"></td>
-            <td th:text="${book.count}"></td>
+            <td th:text="3 - ${book.count}"></td>
           </tr>
         </tbody>
       </table>
-    </div>
+    </div><br>
     
     <!-- 페이지네이션 -->
     <div th:with="start=${(books.number/maxPage)*maxPage + 1},

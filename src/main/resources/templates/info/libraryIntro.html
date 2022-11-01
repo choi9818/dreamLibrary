@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  	  layout:decorate="~{layouts/layout}">
+
+<head>
+	<meta name="_csrf" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+
+<!-- 사용자 스크립트 추가 -->
+<!-- css -->
+<th:block layout:fragment="css">
+	<style>
+		@font-face {
+			font-family: 'Pretendard';
+			font-weight: 700;
+			font-display: swap;
+			src: local('Pretendard Bold'), url('./woff2/Pretendard-Bold.woff2') format('woff2'), url('./woff/Pretendard-Bold.woff') format('woff');
+		}
+		@font-face {
+			font-family: 'Pretendard';
+			font-weight: 500;
+			font-display: swap;
+			src: local('Pretendard Regular'), url('./woff2/Pretendard-Regular.woff2') format('woff2'), url('./woff/Pretendard-Regular.woff') format('woff');
+		}
+		@font-face {
+			font-family: 'Pretendard';
+			font-weight: 200;
+			font-display: swap;
+			src: local('Pretendard ExtraLight'), url('./woff2/Pretendard-ExtraLight.woff2') format('woff2'), url('./woff/Pretendard-ExtraLight.woff') format('woff');
+		}
+		img { width: 800px; height: 100%; border-radius: 20px;}
+		h1 { font-family: 'Pretendard'; font-weight: 700; }
+		h4 { font-family: 'Pretendard'; font-weight: 500; }
+		label { font-family: 'Pretendard'; font-weight: 200; }
+	</style>
+</th:block>
+
+<!-- content -->
+<div layout:fragment="content" id="content" style="width: 75%; margin: 0 auto;">
+  <!-- 배너 -->
+  <br>
+  <div id="carouselExample" class="carousel slide col-md-8 offset-md-2" data-bs-ride="carousel" 
+  	   style="width: 800px;; margin: 0 auto;">
+    
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="/assets/img/elements/books8.jpg" alt="First slide"/>
+        <div class="carousel-caption d-none d-md-block">
+          <h1>Dream Library</h1>
+          <h4>드림도서관에 오신 것을 환영합니다</h4>
+          <label>드림도서관은 국민의 지식 정보 및 문화 발전 지원이라는 신념을 가지고
+          	<br>개개인의 창의성으로 이루어낸 지적 성취가 일상생활에 어우러져
+          	<br>‘살아 있는 정보’로 활용되도록 더욱더 노력하겠습니다
+          </label>
+        </div>
+      </div>    
+    </div>
+  </div>
+  <br>
+</div>
+
+</html>

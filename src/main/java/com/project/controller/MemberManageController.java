@@ -12,11 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.project.dto.MemberFormDto;
 import com.project.dto.SearchDto;
-import com.project.entity.Member;
-import com.project.repository.MemberRepository;
-import com.project.repository.UpdateMemberRepository;
 import com.project.service.MemberManageService;
-import com.project.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
 

@@ -1,10 +1,137 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layouts/layout}">
-	  
-<div layout:fragment="content">
-	<h1>메인 페이지입니다.</h1>
+  	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  	  layout:decorate="~{layouts/layout2}">
+
+<head>
+	<meta name="_csrf" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+
+<!-- 사용자 스크립트 추가 -->
+<th:block layout:fragment="script">
+	<script th:inline="javascript">
+		function fnMainSearch() {
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			
+			var param= $("#searchQuery").val();
+			var url= '/search/integrated/0?searchBy=title&searchQuery=' + param;
+			
+			location.href= url;
+		}
+		
+		function fnImgLocation(searchCategory) {
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			
+			var url = '/search/detailed/0?searchTitle=&searchAuthor=&searchPublisher=&searchCategory=' + searchCategory + '&startDate=&endDate=';
+		
+			location.href = url;
+		}
+	</script>
+</th:block>
+
+<!-- css -->
+<th:block layout:fragment="css">
+	<style>
+		@font-face {
+			font-family: 'Pretendard';
+			font-weight: 300;
+			font-display: swap;
+			src: local('Pretendard Light'), url('./woff2/Pretendard-Light.woff2') format('woff2'), url('./woff/Pretendard-Light.woff') format('woff');
+		}
+		#content { 
+			font-family: 'Pretendard'; 
+			font-weight: 300; 
+			width: 75%;
+			margin: 0 auto;	
+		}
+		#carouselExample { margin: 0 auto; width: 805px; height: 300px; }
+		.carousel-inner { border-radius: 15px; width:100%; height:100%; }
+		#main-img { width: 805px; height: 305px; }
+		.search-section { width: 805px; margin: 0 auto; }
+		#layout-navbar { width: 100%; }
+	</style>
+</th:block>
+
+<!-- content -->
+<div layout:fragment="content" id="content">
+  <br><br><br>
+  <!-- 배너 -->
+  <div id="carouselExample" class="carousel slide col-md-8 offset-md-2" data-bs-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-bs-target="#carouselExample" data-bs-slide-to="0" class="active"></li>
+      <li data-bs-target="#carouselExample" data-bs-slide-to="1"></li>
+      <li data-bs-target="#carouselExample" data-bs-slide-to="2"></li>
+      <li data-bs-target="#carouselExample" data-bs-slide-to="3"></li>    
+    </ol>
+    
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img id="main-img" src="assets/img/elements/main1.jpg" alt="1st slide" onclick="fnImgLocation('가정/육아')" />
+        <div class="carousel-caption d-none d-md-block"></div>
+      </div>
+      <div class="carousel-item">
+        <img id="main-img" src="assets/img/elements/main2.jpg" alt="2nd slide" onclick="fnImgLocation('과학')" />
+        <div class="carousel-caption d-none d-md-block"></div>
+      </div>
+      <div class="carousel-item">
+        <img id="main-img" src="assets/img/elements/main3.jpg" alt="3rd slide" onclick="fnImgLocation('건강')" />
+        <div class="carousel-caption d-none d-md-block"></div>
+      </div>
+      <div class="carousel-item">
+        <img id="main-img" src="assets/img/elements/main4.jpg" alt="4th slide" onclick="fnImgLocation('시/에세이')" />
+        <div class="carousel-caption d-none d-md-block"></div>
+      </div>
+    </div>
+    
+    <a class="carousel-control-prev" href="#carouselExample" role="button" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </a>
+    
+    <a class="carousel-control-next" href="#carouselExample" role="button" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </a>
+  </div>
+  
+  <!-- 검색창 -->
+  <div class="search-section">
+    <form method="get" id="searchForm" name="searchForm">
+      <!-- 검색바 -->
+      <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
+      
+        <!-- 아이콘 -->
+        <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+          <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+            <i class="bx bx-menu bx-sm"></i>
+          </a>
+        </div>
+        
+        <!-- 입력창, 버튼 -->
+        <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+          <!-- 입력창 -->
+          <div class="navbar-nav align-items-center">
+            <div class="nav-item d-flex align-items-center">
+              <i class="bx bx-search fs-4 lh-0"></i>
+              <input type="text" id="searchQuery" name="searchQuery" class="form-control border-0 shadow-none" placeholder="통합검색">
+            </div>
+          </div>
+          <!-- 버튼 -->
+          <ul class="navbar-nav flex-row align-items-center ms-auto">
+            <li class="nav-item lh-1 me-3">
+              <button type="button" class="btn btn-primary" id="searchBtn" onclick="fnMainSearch()">
+                Search
+              </button>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </form>
+  </div>
+
 </div>
 
 </html>

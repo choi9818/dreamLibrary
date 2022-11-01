@@ -127,13 +127,51 @@ public class BookController {
 							 Model model) {
 		
 		Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 9);
-		Page<BookListDto> books = bookService.getSearchBookPage(bookSearchDto, pageable);
+		Page<BookListDto> books = bookService.getInteSearchBookPage(bookSearchDto, pageable);
 		
 		model.addAttribute("books", books);
 		model.addAttribute("bookSearchDto", bookSearchDto);
 		model.addAttribute("maxPage", 5);
 		
-		return "book/bookList";
+		return "search/inteSearchList";
+	}
+	
+	/**
+	 * 신착자료 검색
+	 * 
+	 * */
+	@GetMapping(value = {"/search/recent", "/search/recent/{page}"})
+	public String recentSearch(BookSearchDto bookSearchDto,
+								   @PathVariable("page") Optional<Integer> page,
+								   Model model) {
+		
+		Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 9);
+		Page<BookListDto> books = bookService.getSearchRecentBookPage(bookSearchDto, pageable);
+		
+		model.addAttribute("books", books);
+		model.addAttribute("bookSearchDto", bookSearchDto);
+		model.addAttribute("maxPage", 5);
+		
+		return "search/recentSearchList";
+	}
+	
+	/**
+	 * 상세 검색
+	 * 
+	 * */
+	@GetMapping(value = {"/search/detailed", "/search/detailed/{page}"})
+	public String detailedSearch(BookSearchDto bookSearchDto,
+								 @PathVariable("page") Optional<Integer> page,
+								 Model model) {
+		
+		Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 9);
+		Page<BookListDto> books = bookService.getDetailedSearchBookPage(bookSearchDto, pageable);
+		
+		model.addAttribute("books", books);
+		model.addAttribute("bookSerachDto", bookSearchDto);
+		model.addAttribute("maxPage", 5);
+		
+		return "search/detailedSearchList";
 	}
 	
 	/**
@@ -144,6 +182,6 @@ public class BookController {
 	public String bookDtl(Model model, @PathVariable("bookIsbn") String bookIsbn) {
 		BookFormDto bookFormDto = bookService.getBookDtl(bookIsbn);
 		model.addAttribute("book", bookFormDto);
-		return "book/bookDtl";
+		return "search/bookDtl";
 	}
 }

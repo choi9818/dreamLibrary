@@ -1,5 +1,7 @@
 package com.project.entity;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -41,5 +43,27 @@ public class ReservBook extends BaseTimeEntity {
 		 * 	-> Many To One
 		 *  
 		 * */
+	
+	private LocalDate reservDate;		// 예약일
+	
+	//--------------------------------------------------
+	
+	// 예약목록 생성
+	public static ReservBook createReservBook(Reserv reserv, Book book) {
+		
+		ReservBook reservBook = new ReservBook();
+		
+		reservBook.setReserv(reserv);
+		reservBook.setReservDate(LocalDate.now());
+		book.minusCount();	// 예약가능횟수 -1 처리
+		reservBook.setBook(book);
+		
+		return reservBook;
+	}
+	
+	// 예약 취소
+	public void cancel() {
+		this.getBook().plusCount();
+	}
 
 }

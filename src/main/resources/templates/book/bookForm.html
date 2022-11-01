@@ -34,62 +34,65 @@
 </th:block>
 
 <!-- 사용자 css 추가 -->
-<div layout:fragment="css">
+<th:block layout:fragment="css">
 	<style>
-    	#book-element { width: 10%; }
-    	#book-element-content { width: 40%; padding-left: 3px;}
-    	.input-group-text { width: 82px; font-size: 0.8em;}
+		@font-face {
+			font-family: 'Pretendard';
+			font-weight: 300;
+			font-display: swap;
+			src: local('Pretendard Light'), url('./woff2/Pretendard-Light.woff2') format('woff2'), url('./woff/Pretendard-Light.woff') format('woff');
+		}
+		#content {
+			font-family: 'Pretendard';
+			font-weight: 300;
+			width: 75%;
+			margin: 0 auto;
+		}
+		.form-head {
+			text-align: center;
+			margin-top: 10px;
+			margin-bottom: 20px;
+		}
     	.fieldError { color: #bd2130; }
+    	#book-element {
+    		padding-right: 0px;
+    	}
     </style>
-</div>
+</th:block>
 
 <!-- content -->
-<div layout:fragment="content" style="width: 75%; margin: 0 auto">
+<div layout:fragment="content" id="content">
   <form role="form" method="post" enctype="multipart/form-data" th:object="${bookFormDto}">
-    <h3 align="center">도서 관리</h3>
+    <h4 class="form-head">도서 등록 / 수정</h4>
     <!-- table -->
     <div class="table-responsive">
       <table class="table table-borderless">
+        <colgroup><col width="10%"/><col width="40%"/><col width="10%"/><col width="40%"/></colgroup>
         <tbody>
           <tr>
-          	<td id="book-element">
-          	  <div class="mb-3"><label for="defaultFormControlInput" class="form-label">도서명</label></div>
-          	</td>
+          	<td id="book-element">도서명</td>
           	<td colspan='3' id="book-element-content">
-          	  <div class="mb-3">
-          	    <input type="text" th:field="*{title}" class="form-control" id="defaultFormControlInput" placeholder="" aria-describedby="defaultFormControlHelp" />
-          	  </div>
+          	  <input type="text" th:field="*{title}" class="form-control" id="defaultFormControlInput" placeholder="" aria-describedby="defaultFormControlHelp" />
           	</td> 
             <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="fieldError">Incorrect data</p>
           </tr>
           
           <tr>
-            <td id="book-element">
-              <div class="mb-3"><label for="defaultFormControlInput" class="form-label">ISBN</label></div>
-            </td>
+            <td id="book-element">ISBN</td>
             <td id="book-element-content">
-              <div class="mb-3">
-          	    <input type="text" th:field="*{isbn}" class="form-control" id="defaultFormControlInput" placeholder="" aria-describedby="defaultFormControlHelp" />
-          	  </div>
+              <input type="text" th:field="*{isbn}" class="form-control" id="defaultFormControlInput" placeholder="" aria-describedby="defaultFormControlHelp" />
             </td>
-            <td id="book-element">
-              <div class="mb-3"><label for="defaultFormControlInput" class="form-label">저자</label></div>
-            </td>
+            <td id="book-element">저자</td>
             <td id="book-element-content">
-              <div class="mb-3">
-          	    <input type="text" th:field="*{author}" class="form-control" id="defaultFormControlInput" placeholder="" aria-describedby="defaultFormControlHelp" />
-          	  </div>
-            </td>
+              <input type="text" th:field="*{author}" class="form-control" id="defaultFormControlInput" placeholder="" aria-describedby="defaultFormControlHelp" />
+          	</td>
           </tr>
           <p th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}" class="fieldError">Incorrect data</p>
           
           <tr>
-            <td id="book-element">
-              <div class="mb-3"><label for="defaultFormControlInput" class="form-label">카테고리</label></div>
-            </td>
+            <td id="book-element">카테고리</td>
 	        <td id="book-element-content">
-	          <div class="mb-3">
-	            <select th:field="*{category}" class="form-select" id="exampleFormControlSelect1" aria-label="Default select example">
+	          <select th:field="*{category}" class="form-select" id="exampleFormControlSelect1" aria-label="Default select example">
 			      <option value="소설">소설</option>
 			      <option value="시/에세이">시/에세이</option>
 			      <option value="인문">인문</option>
@@ -109,15 +112,11 @@
 			      <option value="청소년">청소년</option>
 			      <option value="유아">유아</option>
 			      <option value="어린이">어린이</option>
-  			    </select>
-	          </div>
+  			  </select>
 	        </td>
-            <td id="book-element">
-              <div class="mb-3"><label for="defaultFormControlInput" class="form-label">열람실</label></div>
-            </td>
+            <td id="book-element">열람실</td>
   	        <td id="book-element-content">
-  	          <div class="mb-3">
-	            <select th:field="*{place}" class="form-select" id="exampleFormControlSelect1" aria-label="Default select example">
+  	          <select th:field="*{place}" class="form-select" id="exampleFormControlSelect1" aria-label="Default select example">
 			      <option value="1열람실">1열람실</option>
 			      <option value="2열람실">2열람실</option>
 			      <option value="3열람실">3열람실</option>
@@ -127,63 +126,44 @@
 			      <option value="7열람실">7열람실</option>
 			      <option value="8열람실">8열람실</option>
 			      <option value="9열람실">9열람실</option>
-  			    </select>
-	          </div>
+  			  </select>
 	        </td>
           </tr>
           
           <tr>
-	        <td id="book-element">
-	          <div class="mb-3"><label for="defaultFormControlInput" class="form-label">발행처</label></div>
-	        </td>
+	        <td id="book-element">발행처</td>
 	        <td id="book-element-content">
-	          <div class="mb-3">
-	            <input type="text" th:field="*{publisher}" class="form-control" id="defaultFormControlInput" placeholder="" aria-describedby="defaultFormControlHelp" />
-	          </div>
+	          <input type="text" th:field="*{publisher}" class="form-control" id="defaultFormControlInput" placeholder="" aria-describedby="defaultFormControlHelp" />
 	        </td>
-	        <td id="book-element">
-	          <div class="mb-3"><label for="defaultFormControlInput" class="form-label">발행일자</label></div>
-	        </td>
+	        <td id="book-element">발행일자</td>
 	        <td id="book-element-content">
-	          <div class="mb-3">
-				<input class="form-control" type="date" value="2022-01-01" id="html5-date-input" th:field="*{publishedDate}"/>
-	          </div>
+	          <input class="form-control" type="date" value="2022-01-01" id="html5-date-input" th:field="*{publishedDate}"/>
 	        </td>
           </tr>
  
 	      <tr>
-	        <td id="book-element">
-	          <div class="mb-3"><label for="defaultFormControlInput" class="form-label">예약상태</label></div>
-	        </td>
+	        <td id="book-element">예약상태</td>
 	        <td id="book-element-content">
-	          <div class="mb-3">
-	            <select th:field="*{bookStatus}" class="form-select" id="exampleFormControlSelect1" aria-label="Default select example">
+	          <select th:field="*{bookStatus}" class="form-select" id="exampleFormControlSelect1" aria-label="Default select example">
 			      <option value="POSSIBLE">예약가능</option>
 			      <option value="IMPOSSIBLE">예약불가능</option>
-  			    </select>
-	          </div>
+  			  </select>
 	        </td>
-			<td id="book-element">
-			  <div class="mb-3"><label for="defaultFormControlInput" class="form-label">가능횟수</label></div>
-			</td>
+			<td id="book-element">가능횟수</td>
 	        <td id="book-element-content">
-	          <div class="mb-3">
-	            <input type="number" th:field="*{count}" class="form-control" id="defaultFormControlInput" placeholder="3" aria-describedby="defaultFormControlHelp" />
-	          </div>
+	          <input type="number" th:field="*{count}" class="form-control" id="defaultFormControlInput" placeholder="3" aria-describedby="defaultFormControlHelp" />
 	        </td>
 	      </tr>
 		  
 	      <tr>
-	        <td id="book-element">
-	          <div class="mb-3"><label for="defaultFormControlInput" class="form-label">이미지</label></div>
-	        </td>
+	        <td id="book-element">이미지</td>
 	        <td colspan='3' id="book-element-content">
-	          <div class="mb-3" th:if="${#lists.isEmpty(bookFormDto.bookImgDtoList)}">
+	          <div th:if="${#lists.isEmpty(bookFormDto.bookImgDtoList)}">
 	            <div class="custom-file">
 	              <input class="form-control" type="file" id="formFile" name="bookImgFile">
 	            </div>
 	          </div>
-	          <div class="mb-3" th:if="${not #lists.isEmpty(bookFormDto.bookImgDtoList)}">
+	          <div th:if="${not #lists.isEmpty(bookFormDto.bookImgDtoList)}">
 	            <div class="custom-file" th:each="bookImgDto, status: ${bookFormDto.bookImgDtoList}">
 	              <input class="form-control" type="file" id="formFile" name="bookImgFile"
 	              		 th:text="${not #strings.isEmpty(bookImgDto.oriImgName)} ? ${bookImgDto.oriImgName} : '도서 이미지' + ${status.index+1}">
@@ -194,13 +174,9 @@
 	      </tr>
 	      
 	      <tr>
-	        <td id="book-element">
-	          <div class="mb-3"><label for="defaultFormControlInput" class="form-label">상세설명</label></div>
-	        </td>
+	        <td id="book-element">상세설명</td>
 	        <td colspan='3' id="book-element-content">
-	          <div class="mb-3">
-	            <textarea th:field="*{bookDetail}" class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
-	          </div>
+	          <textarea th:field="*{bookDetail}" class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
 	        </td>
 	      </tr>
         </tbody>
