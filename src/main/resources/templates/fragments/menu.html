@@ -3,7 +3,7 @@
   	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
   	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
   	  layout:decorate="~{layouts/layout}">
-  	  
+   	  
 <!-- 
 
 -------------작은 구분선
@@ -83,12 +83,12 @@
 	  </a>
 	  <ul class="menu-sub">
 	    <li class="menu-item">
-	      <a href="layouts-without-menu.html" class="menu-link">
+	      <a href="/info/intro" class="menu-link">
 	        <div data-i18n="Without menu">도서관소개</div>
 	      </a>
 	    </li>
 	    <li class="menu-item">
-	      <a href="layouts-without-menu.html" class="menu-link">
+	      <a href="/info/usetime" class="menu-link">
 	        <div data-i18n="Without menu">이용안내</div>
 	      </a>
 	    </li>
@@ -99,30 +99,29 @@
 	<li class="menu-header small text-uppercase">
 	  <span class="menu-header-text">Search</span>
 	</li>
-	<li class="menu-item">
-	  <a href="/search/integrated" class="menu-link">
-	    <i class="menu-icon tf-icons bx bx-search"></i>
-	    <div data-i18n="Basic">통합검색</div>
-	  </a>
-	</li>
-    <li class="menu-item">
-	  <a href="javascript:void(0);" class="menu-link menu-toggle">
-	    <i class="menu-icon tf-icons bx bx-search-alt"></i>
-	    <div data-i18n="Layouts">상세검색</div>
-	  </a>
-	  <ul class="menu-sub">
-	    <li class="menu-item">
-	      <a href="layouts-without-menu.html" class="menu-link">
-	        <div data-i18n="Without menu">분류별검색</div>
-	      </a>
-	    </li>
-	    <li class="menu-item">
-	      <a href="layouts-without-menu.html" class="menu-link">
-	        <div data-i18n="Without menu">기간별검색</div>
-	      </a>
-	    </li>
-	  </ul>
-	</li>
+	  <li class="menu-item open">
+     <a href="/search/integrated" class="menu-link menu-toggle">
+       <i class="menu-icon tf-icons bx bx-search"></i>
+       <div data-i18n="Layouts" style="font-family: 'Pretendard'; font-weight: 300;">도서검색</div>
+     </a>
+     <ul class="menu-sub">
+       <li class="menu-item">
+         <a href="/search/integrated" class="menu-link">
+           <div data-i18n="Without menu" style="font-family: 'Pretendard'; font-weight: 200;">통합검색</div>
+         </a>
+       </li>
+       <li class="menu-item">
+         <a href="/search/detailed" class="menu-link">
+           <div data-i18n="Without menu" style="font-family: 'Pretendard'; font-weight: 200;">상세검색</div>
+         </a>
+       </li>
+       <li class="menu-item">
+         <a href="/search/recent" class="menu-link">
+           <div data-i18n="Without menu" style="font-family: 'Pretendard'; font-weight: 200;">신착자료검색</div>
+         </a>
+       </li>
+     </ul>
+   </li>
 	
 	<!-- 게시판 -->
 	<li class="menu-header small text-uppercase">
@@ -162,7 +161,7 @@
 	      </a>
 	    </li>
 	    <li class="menu-item">
-	      <a href="layouts-without-menu.html" class="menu-link">
+	      <a href="/reserv" class="menu-link">
 	        <div data-i18n="Without menu">예약도서목록</div>
 	      </a>
 	    </li>
@@ -174,7 +173,7 @@
 	  <span class="menu-header-text">admin</span>
 	</li>
 	<li class="menu-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
-	  <a href="cards-basic.html" class="menu-link">
+	  <a href="/admin/memberManage" class="menu-link">
 	    <i class="menu-icon tf-icons bx bx-user"></i>
 	    <div data-i18n="Basic">회원관리</div>
 	  </a>

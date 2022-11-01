@@ -37,7 +37,7 @@ public class NoticeImgService {//이미지 정보 저장하는 NoticeImgService 
 		//공지 이미지 정보 저장
 		//imgName 실제 로컬에 저장된 상품 이미지 파일 이름, oriImgName 업로드 했던 상품 이미지의 원래 이름
 		//imgUrl 업로드 결과 로컬에 저장된 상품 이미지 파일을 불러오는 경로
-		noticeImg.updatePostImg(oriImgName, imgName, imgUrl);
+		noticeImg.updateNoticeImg(oriImgName, imgName, imgUrl);
 		noticeImgRepository.save(noticeImg);
 	}
 	//상품 이미지 수정
@@ -54,7 +54,7 @@ public class NoticeImgService {//이미지 정보 저장하는 NoticeImgService 
 			String imgName = fileService.uploadFile(imgLocation, oriImgName, noticeImgFile.getBytes());
 			String imgUrl = "/images/notice/"+imgName; 
 			//변경된 공지 이미지 정보 세팅
-			saveNoticeImg.updatePostImg(oriImgName, imgName, imgUrl);	
+			saveNoticeImg.updateNoticeImg(oriImgName, imgName, imgUrl);	
 		}
 	}
 }

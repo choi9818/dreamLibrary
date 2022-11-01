@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
   	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  	  layout:decorate="~{layouts/layout}">
+  	  layout:decorate="~{layouts/layout2}">
 <!-- 사용자 CSS 추가 -->
 <th:block layout:fragment="css">
     <style>
@@ -32,12 +32,11 @@
 </th:block>  	  
 <div layout:fragment="content" align="center">
 <form role="form" method="post" action="/member/new" th:object="${memberFormDto}">
-	<label class="form-label mt-4" >register</label>
- 		
+	<h4 class="fw-bold py-3 mb-4">회원가입</h4>		
         <div class="form-floating mb-3" align="center" style="width:350px;">
             <div class="input-group input-group-merge">
             	<input type="email" th:field="*{email}" class="form-control" placeholder="eamil" style="height:50px;">
-				<span class="input-group-text"><i class="fas fa-envelope"></i></span>
+				<span class="input-group-text"><i class='bx bx-envelope'></i></span>
 	        	<!-- <button class="btn btn-outline-primary" type="button" id="button-addon2">certify</button> -->
 	        </div>
             <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="fieldError"></p>
@@ -65,7 +64,7 @@
             <div class="input-group input-group-merge">
 	            <input type="text" th:field="*{phone}" class="form-control phone" placeholder="000-0000-0000" 
 	            	pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" style="height:50px;"> 
-				<span class="input-group-text"><i class="fas fa-phone"></i></span>
+				<span class="input-group-text"><i class='bx bx-phone'></i></span>
             </div>
             <p th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="fieldError"></p>       
         </div>
@@ -77,8 +76,6 @@
 			</div>
 			<p th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}" class="fieldError"></p>			
 		</div>
-		
-		<br>
        	<br>
         <div style="text-align: center">
             <button type="submit" class="btn btn-primary" style="">가입</button>

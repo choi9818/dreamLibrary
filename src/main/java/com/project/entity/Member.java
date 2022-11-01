@@ -6,9 +6,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -56,6 +59,7 @@ public class Member{
 	@Enumerated(EnumType.STRING)
 	private Role role;
 	
+	
 	//멤버 만드는 거, serivce에 선언함
 	public static Member createMember(MemberFormDto memberFormDto, 
 			PasswordEncoder passwordEncoder) {
@@ -66,7 +70,7 @@ public class Member{
 		member.setPassword(password);
 		member.setBirthday(memberFormDto.getBirthday());
 		member.setPhone(memberFormDto.getPhone());
-		member.setRole(Role.ADMIN);
+		member.setRole(Role.USER);
 		return member;
 	}
 

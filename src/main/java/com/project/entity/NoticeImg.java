@@ -40,8 +40,18 @@ public class NoticeImg extends BaseTimeEntity {
 	 * 
 	 * */
 	
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "notice_id")
+//	private Notice notice;
+//	/*
+//	 * 한가지 공지사항에 여러 이미지가 있음
+//	 * 	-> postImg : post = 다 : 일
+//	 * 	-> Many To One
+//	 * 
+//	 * */
+	
 	// 이미지 정보 업데이트 method
-	public void updatePostImg(String oriImgName, String imgName, String imgUrl) {
+	public void updateNoticeImg(String oriImgName, String imgName, String imgUrl) {
 		this.oriImgName = oriImgName;
 		this.imgName = imgName;
 		this.imgUrl = imgUrl;

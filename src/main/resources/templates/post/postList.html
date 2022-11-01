@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
   	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  	  layout:decorate="~{layouts/layout2}">
+  	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+  	  layout:decorate="~{layouts/layout}">
  <!-- 사용자 스크립트 추가 -->
 <th:block layout:fragment="script">
     <script th:inline="javascript">
@@ -18,9 +19,9 @@
             var searchBy = $("#searchBy").val();
             var searchQuery = $("#searchQuery").val();
 
-            location.href="/notice/list/" + page + "?searchDateType=" + searchDateType
-            + "&searchBy=" + searchBy
-            + "&searchQuery=" + searchQuery;
+            location.href="/post/list/" + page + "?searchDateType=" + searchDateType
+            	+ "&searchBy=" + searchBy
+            	+ "&searchQuery=" + searchQuery;
         }
         
     </script>
@@ -28,41 +29,37 @@
   	  
   	  
 <div layout:fragment="content">
-	<h4 class="fw-bold py-3 mb-4">공지사항
-		<span>
-		 	<a th:href="@{/notice/new}"><button type="button" class="btn btn-primary">등록</button></a>
+	<h4 class="fw-bold py-3 mb-4">게시판
+		<span sec:authorize="isAuthenticated()">
+		 	<a th:href="@{/post/new}"><button type="button" class="btn btn-primary">작성</button></a>
 		</span>
 	</h4>
 	<!-- Basic Bootstrap Table -->
     <div class="card">
-<!-- 		<h5 class="card-header">공지사항</h5> -->
+
 		<div class="table-responsive text-nowrap">
-			<form th:action="@{'/notice/list/'+${list.number}}" role="form" method="get" th:object="${list}">
-				<table class="table">
+			<form th:action="@{'/post/list/'+${list.number}}" role="form" method="get" th:object="${list}">
+<!-- 			<form role="form" method="get" th:object="${list}">
+ -->				<table class="table">
                     <thead>
-                      <tr><th style="width:10%;">no</th>
-                      <th style="width:35%;">title</th>
-                      <th style="width:20%;">writer</th>
-                      <th style="width:15%;">date</th>
-                      <th style="width:15%;">Actions</th></tr>
+                      <tr><th>no</th><th>title</th><th>writer</th><th>date</th><!-- <th>views</th> --></tr>
                     </thead>
-                    <tbody class="table-border-bottom-0">
-                    							<!-- list : controller에서 model 객체로 넘겨 받은  -->
+                    <tbody class="table-border-bottom-0">                    							
                       <tr th:each="item, status:${list.getContent()}">
                         <td th:text="${item.id}"></td>
-                        <td><a th:href="'/notice/'+${item.id}" th:text="${item.title}"></a></td>
-                        <td th:text="${item.createdBy}"></td>
-                        <td th:text="${#temporals.format(item.regTime, 'yyyy-MM-dd')}"></td>
+                        <td><a th:href="'/post/'+${item.id}" th:text="${item.title}"></a></td>
+                        <td th:text="${item.createdBy}">writer</td>
+                        <td th:text="${#temporals.format(item.regTime, 'yyyy-MM-dd')}">date</td>
+                        <!-- <td text="">views</td> -->
                         <td>
                           <div class="dropdown">
                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                               <i class="bx bx-dots-vertical-rounded"></i>
                             </button>
                             <div class="dropdown-menu">
-                              <a class="dropdown-item" th:href="'/notice/'+${item.id}">
-                              	<i class="bx bx-edit-alt me-1"></i> Edit</a>
-                              <a class="dropdown-item" th:href="'/notice/delete/'+${item.id}">
-                              <!--  th:href="'/notice/delete'+${item.id}" th:href="@{/notice/delete(id=${item.id})}" -->
+                              <a class="dropdown-item" href="">
+                              	<i class="bx bx-edit-alt me-1"></i>Edit</a>
+                              <a class="dropdown-item" href="">
                                 <i class="bx bx-trash me-1"></i> Delete</a>
                             </div>
                           </div><!-- dropdown -->
@@ -96,8 +93,8 @@
             </ul>
             </nav>
         </div>
-		<!-- 검색  class="form-select form-select-sm form-control id="smallSelect"-->
-        <div class="pagination justify-content-center" th:object="${searchDto}" style="width:50%; margin: auto;" align="center" >
+				<!-- 검색 -->
+         <div class="pagination justify-content-center" th:object="${postSearchDto}" style="width:50%; margin: auto;" align="center" >
             <select th:field="*{searchDateType}" class="form-control" style="width:auto;">
                 <option value="all">전체기간</option>
                 <option value="1d">1일</option>

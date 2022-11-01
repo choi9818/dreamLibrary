@@ -43,21 +43,6 @@ public class NoticeService {//공지 등록하는 NoticeService 클래스
 		noticeImgService.saveNoticeImg(noticeImg, multipartFile);
 		return notice.getId();
 	}
-	
-	public Long updateNotice(NoticeFormDto noticeFormDto, List<MultipartFile> noticeImgFileList) throws Exception {
-		//공지 수정
-		Notice notice = noticeRepository.findById(noticeFormDto.getId())//화면으로부터 전달받은 공지 아이디 이용하여 엔티티 조회
-				.orElseThrow(EntityNotFoundException::new);
-		notice.updateNotice(noticeFormDto);//공지 등록 화면으로 부터 전달 받은 noticeFormDto를 통해 상품 엔티티를 업뎃
-		List<Long> noticeImgIds = noticeFormDto.getNoticeImgIds();//공지 이미지 아이디 리스트 조회
-		//이미지 등록
-		for(int i = 0; i < noticeImgFileList.size();i++) {
-			//공지 이미지 업뎃 위해서 updateNoticeImg() 메소드에 공지 이미지 아이디와 공지 이미지 파일 정보를 파라미터로 전달
-			noticeImgService.updateNoticeImg(noticeImgIds.get(i), noticeImgFileList.get(i));
-		}
-		return notice.getId();
-	}
-	
 	//등록된 공지 불러오는 메소드
 	@Transactional(readOnly = true)
 	public NoticeFormDto getNotice(Long noticeId) {
@@ -74,16 +59,33 @@ public class NoticeService {//공지 등록하는 NoticeService 클래스
 		noticeFormDto.setNoticeImgDtoList(noticeImgDtoList);
 		return noticeFormDto;
 	}
-	
+
 	//공지 조회 조건과 페이지 정보를 파라미터로 받아서 공지 데이터를 조회하는 메소드 추가,
 	//데이터 수정 잃어나지 않음으로 최적화 위해 readOnly = true 설정
 	@Transactional(readOnly = true)
-	public Page<Notice> getAdminNoticePage(SearchDto postSearchDto, Pageable pageable){
-		return noticeRepository.getAdminNoticePage(postSearchDto, pageable);
+	public Page<Notice> getNoticePage(SearchDto searchDto, Pageable pageable){
+		return noticeRepository.getNoticePage(searchDto, pageable);
 	}
 	
+	public Long updateNotice(NoticeFormDto noticeFormDto, List<MultipartFile> noticeImgFileList) throws Exception {
+		//공지 수정
+		Notice notice = noticeRepository.findById(noticeFormDto.getId())//화면으로부터 전달받은 공지 아이디 이용하여 엔티티 조회
+				.orElseThrow(EntityNotFoundException::new);
+		notice.updateNotice(noticeFormDto);//공지 등록 화면으로 부터 전달 받은 noticeFormDto를 통해 상품 엔티티를 업뎃
+		List<Long> noticeImgIds = noticeFormDto.getNoticeImgIds();//공지 이미지 아이디 리스트 조회
+		//이미지 등록
+		for(int i = 0; i < noticeImgFileList.size();i++) {
+			//공지 이미지 업뎃 위해서 updateNoticeImg() 메소드에 공지 이미지 아이디와 공지 이미지 파일 정보를 파라미터로 전달
+			noticeImgService.updateNoticeImg(noticeImgIds.get(i), noticeImgFileList.get(i));
+		}
+		return notice.getId();
+	}	
 	
-	public void deleteNotice(Long noticeId) {
-		noticeRepository.deleteById(noticeId);
-    }  
+	
+//	public void deleteNotice(Long noticeId, Long noticeImgId) {
+//		List<NoticeImg> notice = noticeImgRepository.findByNoticeIdAndNoticeImgId(noticeId, noticeImgId);
+//		noticeImgRepository.deleteAll(notice);
+//    }
+
+	 
 }

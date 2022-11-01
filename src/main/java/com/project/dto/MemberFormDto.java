@@ -8,13 +8,25 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
+import org.modelmapper.ModelMapper;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.project.constant.Role;
+import com.project.entity.Member;
+
+import groovy.transform.ToString;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class MemberFormDto {
+	private Long id;
+	
 	@NotBlank(message="이름은 필수 입력 값입니다.")
 	private String name;
 	
@@ -31,7 +43,26 @@ public class MemberFormDto {
 	//		, message = "10 ~ 11 자리의 숫자만을 입력 가능합니다.")
 	private String phone;
 	
+	
+	private Role role;
 	@NotNull(message="생년월일은 필수 입력 값입니다.")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date birthday;
+
+	private static ModelMapper modelMapper = new ModelMapper();
+	
+	public static MemberFormDto of(Member member) {
+		return modelMapper.map(member, MemberFormDto.class);
+	}
+
+	public MemberFormDto(Long id, String name,
+			 String email,	
+			 Role role			) {
+		
+		this.id = id;
+		this.name = name;
+		this.email = email;	
+		this.role = role;
+	}
+	
 }

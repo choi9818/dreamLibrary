@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
   	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  	  layout:decorate="~{layouts/layout}">
+  	  layout:decorate="~{layouts/layout2}">
   	  
 <div layout:fragment="content" align="center">
 <form role="form" method="post" action="/member/login">
 	<div class="form-group">
-	  <label class="form-label mt-4">login</label>
+	  <h4 class="fw-bold py-3 mb-4">로그인</h4>
 	  <div class="form-floating mb-3" align="center" style="width:350px;">
 	    <input type="email" name="email" class="form-control" placeholder="email" >
 	    <label th:for="email">email</label> 
@@ -16,7 +16,6 @@
 	    <label th:for="pw">Password</label>
 	  </div>
 	  <p th:if="${loginErrorMsg}" class="error" th:text="${loginErrorMsg}"></p>
-	  <br>
 	  <br>
 	  <div class="form-group" align="center">
 	  	<button class="btn btn-primary">로그인</button>

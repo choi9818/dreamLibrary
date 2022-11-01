@@ -12,13 +12,21 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "comment")
 @Getter @Setter
-public class Comment extends BaseTimeEntity {
+@ToString(exclude = {"member", "post"})
+public class Comment extends BaseEntity {
 	
 	@Id
 	@Column(name = "comment_id")
@@ -26,7 +34,7 @@ public class Comment extends BaseTimeEntity {
 	private Long id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "commenter")
+	@JoinColumn(name = "member_id")
 	private Member member;					// 댓글 작성자
 		/*
 		 * 회원 한명이 여러개의 댓글을 작성할 수 있음
@@ -36,10 +44,6 @@ public class Comment extends BaseTimeEntity {
 		 * */
 	
 	private String content;					// 댓글 내용
-	
-	private LocalDateTime regDate;			// 등록일자
-	
-	private LocalDateTime editDate;			// 수정일자
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "post_id")

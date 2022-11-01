@@ -56,13 +56,5 @@ public class MemberService implements UserDetailsService{
      * UserDetails 회원의 정보를 담기 위해 사용
        인터페이스를 직접 구현하거나 스프링 시큐리티에서 제공하는 User 클래스 사용*/
     }
-	
-	@Transactional(readOnly = true)
-	public Optional<Member> getMember(Long memberId) {//수정할 회원 찾기
-		return memberRepository.findById(memberId);		
-	}
-	
-	public void updateMember(Member member) {//수정한 정보 저장
-		memberRepository.save(member);
-	}
+
 }

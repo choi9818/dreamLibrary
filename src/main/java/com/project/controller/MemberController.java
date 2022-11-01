@@ -27,14 +27,14 @@ public class MemberController {
 	@GetMapping(value="/new")//회원가입 페이지로 이동
 	public String register(Model model) {
 		model.addAttribute("memberFormDto",new MemberFormDto());
-		return "member/memberForm";
+		return "member/member";
 	}
 	
 	@PostMapping(value = "/new")//회원가입 후 메인페이지로 이동
     public String newMember(@Valid MemberFormDto memberFormDto, BindingResult bindingResult, Model model){
 		//@Valid검증하려는 객체 앞에 선언, 파라미터로 bindingResult 객체 추가, 검사ㅎ 후 결과 bindingResult에 담음
         if(bindingResult.hasErrors()){//에러 있으면 회원 가입 페이지로 돌아간다.
-            return "member/memberForm";
+            return "member/member";
         }
 
         try {
@@ -42,7 +42,7 @@ public class MemberController {
             memberService.saveMember(member);
         } catch (IllegalStateException e){
             model.addAttribute("errorMessage", e.getMessage());//중복 회원 가입 예외가 발생하면 에러 메시지를 뷰로 전달
-            return "member/memberForm";
+            return "member/member";
         }
 
         return "redirect:/";

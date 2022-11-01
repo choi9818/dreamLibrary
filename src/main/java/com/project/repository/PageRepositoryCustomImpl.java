@@ -12,6 +12,7 @@ import org.thymeleaf.util.StringUtils;
 
 import com.project.dto.SearchDto;
 import com.project.entity.Notice;
+import com.project.entity.QMember;
 import com.project.entity.QNotice;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Wildcard;
@@ -54,7 +55,7 @@ public class PageRepositoryCustomImpl implements PageRepositoryCustom{
 	}
 
 	@Override
-	public Page<Notice> getAdminNoticePage(SearchDto searchDto, Pageable pageable) {
+	public Page<Notice> getNoticePage(SearchDto searchDto, Pageable pageable) {
 		//공지 데이터를 조회하기 위해서 지정
 		long total = queryFactory.select(Wildcard.count).from(QNotice.notice)
 				//BooleanExpression을 반환하는 조건문들
@@ -72,10 +73,48 @@ public class PageRepositoryCustomImpl implements PageRepositoryCustom{
                 .limit(pageable.getPageSize()).fetch();         
 
         //조회한 데이터를 page 클래스의 구현제인 PageImpl 객체로 반환
-        return new PageImpl<>(noticeList, pageable, total);
-        
-        
-    
+        return new PageImpl<>(noticeList, pageable, total);    
 	}
+	
+	private BooleanExpression noticeTitleLike(String searchQuery) {
+		return StringUtils.isEmpty(searchQuery)? null: 
+			QNotice.notice.title.like("%"+searchQuery+"%");
+	}
+
+	
+	//searchByMember에 따라 email로 검색
+	private BooleanExpression searchByLikeEmail(String searchByEmail, String searchQueryMember) {
+		if (StringUtils.equals("email", searchByEmail)) {
+			return QMember.member.email.like("%"+searchQueryMember+"%");
+		}
+		return null;
+	}
+
+//	@Override
+//	public Page<Member> getManagePage(SearchDto searchDto, Pageable pageable) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+	
+//	@Override
+//	public Page<Member> getManagePage(SearchDto searchDto, Pageable pageable) {
+//		//멤버 데이터를 조회하기 위해서 지정
+//		long total = queryFactory.select(Wildcard.count).from(QMember.member)
+//				//BooleanExpression을 반환하는 조건문들
+//				.where(searchByLikeEmail(searchDto.getSearchByEmail(),
+//							searchDto.getSearchQueryMember())).fetchOne();      
+//		List<Member> memberList = queryFactory.selectFrom(QMember.member)
+//				.where(searchByLikeEmail(searchDto.getSearchByEmail(),
+//							searchDto.getSearchQueryMember()))
+//                .orderBy(QMember.member.id.desc())
+//                //데이터를 가지고 올 시작 인덱스 지정
+//                .offset(pageable.getOffset())
+//                //한 번에 가지고 올 최대 개수 지정
+//                .limit(pageable.getPageSize()).fetch();         
+//
+//        //조회한 데이터를 page 클래스의 구현제인 PageImpl 객체로 반환
+//        return new PageImpl<>(memberList, pageable, total);    
+//	}
+
 
 }

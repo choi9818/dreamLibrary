@@ -37,6 +37,17 @@ public class Notice extends BaseEntity {
 	@Lob
 	private String content;			// 내용
 	
+//	@OneToOne(mappedBy = "notice", fetch = FetchType.LAZY)
+//	@JoinColumn(name = "notice_img_id")
+//	private NoticeImg noticeImg;
+//	/*
+//	 * 한가지 공지사항에 여러 이미지가 있음
+//	 * 	-> postImg : post = 다 : 일
+//	 * 	-> Many To One
+//	 * 
+//	 * */
+	
+	
 //	@ManyToOne(fetch = FetchType.LAZY)
 //	private Member member;			// 작성자(member의 name
 //		/*

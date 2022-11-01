@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
   	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  	  layout:decorate="~{layouts/layout}">
+  	  layout:decorate="~{layouts/layout2}">
  <!-- 사용자 스크립트 추가 -->
 <th:block layout:fragment="script">
     <script th:inline="javascript">
@@ -19,8 +19,8 @@
             var searchQuery = $("#searchQuery").val();
 
             location.href="/notice/read/" + page + "?searchDateType=" + searchDateType
-            	+ "&searchBy=" + searchBy
-            	+ "&searchQuery=" + searchQuery;
+            + "&searchBy=" + searchBy
+            + "&searchQuery=" + searchQuery;
         }
         
     </script>
@@ -33,40 +33,43 @@
     <div class="card">
 <!-- 		<h5 class="card-header">공지사항</h5> -->
 		<div class="table-responsive text-nowrap">
-			<form th:action="@{'/notice/'+${notices.number}}" role="form" method="get" th:object="${notices}">
+			<form th:action="@{'/notice/read/'+${readList.number}}" role="form" method="get" th:object="${readList}">
 				<table class="table">
                     <thead>
-                      <tr><th>no</th><th>title</th><th>writer</th><th>date</th></tr>
+                      <tr><th style="width:10%;">no</th>
+                      <th style="width:35%;">title</th>
+                      <th style="width:20%;">writer</th>
+                      <th style="width:15%;">date</th></tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
-                    							<!-- notices : controller에서 model 객체로 넘겨 받은  -->
-                      <tr th:each="item, status:${notices.getContent()}">
+                    							<!-- list : controller에서 model 객체로 넘겨 받은  -->
+                      <tr th:each="item, status:${readList.getContent()}">
                         <td th:text="${item.id}"></td>
-                        <td><a th:href="'/notice/read/'+${item.id}" th:text="${item.title}"></a></td>
+                        <td><a th:href="'/notice/view/'+${item.id}" th:text="${item.title}"></a></td>
                         <td th:text="${item.createdBy}"></td>
                         <td th:text="${#temporals.format(item.regTime, 'yyyy-MM-dd')}"></td>
                       </tr><!-- 1row -->                                           
                     </tbody>
                   </table>
                   <!-- 페이징 -->
-                  <div th:with="start=${(notices.number/maxPage)*maxPage + 1}, end=(${(notices.totalPages == 0) 
-        			? 1 : (start + (maxPage - 1) < notices.totalPages 
-        			? start + (maxPage - 1) : notices.totalPages)})" >
+                  <div th:with="start=${(readList.number/maxPage)*maxPage + 1}, end=(${(readList.totalPages == 0) 
+        			? 1 : (start + (maxPage - 1) < readList.totalPages 
+        			? start + (maxPage - 1) : readList.totalPages)})" >
         			<nav aria-label="Page navigation">
             <ul class="pagination justify-content-center">
 
-                <li class="page-item" th:classappend="${notices.first}?'disabled'">
-                    <a th:onclick="'javascript:page(' + ${notices.number - 1} + ')'" aria-label='Previous' class="page-link">
+                <li class="page-item" th:classappend="${readList.first}?'disabled'">
+                    <a th:onclick="'javascript:page(' + ${readList.number - 1} + ')'" aria-label='Previous' class="page-link">
                         <span aria-hidden='true'>Previous</span>
                     </a>
                 </li>
 
-                <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${notices.number eq page-1}?'active':''">
+                <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${readList.number eq page-1}?'active':''">
                     <a th:onclick="'javascript:page(' + ${page - 1} + ')'" th:inline="text" class="page-link">[[${page}]]</a>
                 </li>
 
-                <li class="page-item" th:classappend="${notices.last}?'disabled'">
-                    <a th:onclick="'javascript:page(' + ${notices.number + 1} + ')'" aria-label='Next' class="page-link">
+                <li class="page-item" th:classappend="${readList.last}?'disabled'">
+                    <a th:onclick="'javascript:page(' + ${readList.number + 1} + ')'" aria-label='Next' class="page-link">
                         <span aria-hidden='true'>Next</span>
                     </a>
                 </li>
@@ -74,9 +77,9 @@
             </ul>
             </nav>
         </div>
-		<!-- 검색 -->
-        <div class="pagination justify-content-center" th:object="${postSearchDto}">
-            <select th:field="*{searchDateType}" class="form-select form-select-sm" id="smallSelect">
+		<!-- 검색  class="form-select form-select-sm form-control id="smallSelect"-->
+        <div class="pagination justify-content-center" th:object="${searchDto}" style="width:50%; margin: auto;" align="center">
+            <select th:field="*{searchDateType}" class="form-control" style="width:auto;">
                 <option value="all">전체기간</option>
                 <option value="1d">1일</option>
                 <option value="1w">1주</option>
@@ -88,8 +91,9 @@
                 <option value="createdBy">작성자</option>
             </select>
             <input th:field="*{searchQuery}" type="text" class="form-control" placeholder="검색어를 입력해주세요">
-            <button id="searchBtn" type="submit" class="btn btn-primary">검색</button>
+            <button id="searchBtn" type="button" class="btn btn-primary">검색</button>
         </div>
+        <br>
 			</form>
 		</div>
 	</div>

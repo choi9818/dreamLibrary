@@ -1,6 +1,7 @@
 package com.project.controller;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,15 +11,19 @@ import javax.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -41,7 +46,7 @@ public class NoticeController {
 		return "notice/noticeWrite";
 	}
 	
-	//공지 등록 url
+	//관리자-등록
 	@PostMapping(value="/notice/new")
 	public String noticeNew(@Valid NoticeFormDto noticeFormDto, BindingResult bindingResult,
 			Model model, @RequestParam("noticeImgFile") MultipartFile multipartFile) {
@@ -56,7 +61,7 @@ public class NoticeController {
 		}
 		return "redirect:/notice/list";//상품 정상적으로 등록 되었다면 다시 리스트로 이동
 	}
-	//수정 페이지 진입
+	//관리자-수정 페이지 불러오기
 	@GetMapping(value="/notice/{noticeId}")
 	public String noticeGet(@PathVariable("noticeId") Long noticeId, Model model) {
 		try {
@@ -70,6 +75,7 @@ public class NoticeController {
 		return "notice/noticeWrite";
 		
 	}
+	//관리자-수정 저장
 	@PostMapping(value="/notice/{noticeId}")
 	public String noticeUpdate(@Valid NoticeFormDto noticeFormDto, BindingResult bindingResult,
 			@RequestParam("noticeImgFile") List<MultipartFile> noticeImgFileList, Model model) throws Exception {
@@ -83,54 +89,48 @@ public class NoticeController {
 		}		
 		return "redirect:/notice/list";
 	}
-    //버튼 삭제   
-    @RequestMapping(value="/notice/delete/{noticeId}")
-    public String btnDelete(@RequestParam("noticeId") Long noticeId) {
-    	noticeService.deleteNotice(noticeId);
-		return "redirect:/";
-    }
 	
-//	//action 삭제
-//    @GetMapping("/notice/delete")
-//    public String actionDelete(Long noticeId){
-//    	noticeService.deleteNotice(noticeId);
-//		return "redirect:/";
-//    }
-
-	//공지 관리 화면 이동 및 조회한 공지 데이터를 화면에 전달하는 로직
+//	//공지 삭제 
+//	@DeleteMapping(value = "/notice/{noticeId}")
+//	public ResponseEntity<Long> deleteNotice(@PathVariable("noticeId") Long noticeId, Long noticeImgId) {
+//		noticeService.deleteNotice(noticeId, noticeImgId);
+//		return new ResponseEntity<Long>(noticeId, HttpStatus.OK);
+//	}
+//	
+	//관리자-공지 리스트 조회
 	@GetMapping(value= {"/notice/list", "/notice/list/{page}"})
 	public String noticeList(SearchDto searchDto,
 		//조회할 페이지 번호, 두 번째 한 번에 가지고 올 데이터 수
 		@PathVariable("page") Optional<Integer> page, Model model) {
 		Pageable pageable = PageRequest.of(page.isPresent()?page.get():0, 3);
 		//조회 조건과 페이징 정보 파라미터로 넘겨서 Page<Notice> 객체를 반환
-		Page<Notice> notices = noticeService.getAdminNoticePage(searchDto, pageable);
-			model.addAttribute("notices",notices);//조회한 상품 데이터 및 페이징 정보 뷰에 전달
-			model.addAttribute("postSearchDto", searchDto);//페이지 전환 시 기존 검색 조건 유지한체
+		Page<Notice> list = noticeService.getNoticePage(searchDto, pageable);
+			model.addAttribute("list",list);//조회한 상품 데이터 및 페이징 정보 뷰에 전달
+			model.addAttribute("searchDto", searchDto);//페이지 전환 시 기존 검색 조건 유지한체
 			model.addAttribute("maxPage", 5);//페이지 하단에 보여줄 최대 개수
 		return "notice/noticeList";
 	}
 	
-	//단순 보여주는 로직
-	@GetMapping(value= {"/notice/read"}) //, "/notice/read/{page}"
-	public String noticeView(SearchDto searchDto,
-			//조회할 페이지 번호, 두 번째 한 번에 가지고 올 데이터 수
-			@PathVariable("page") Optional<Integer> page, Model model) {
+	//회원-공지 리스트 조회 페이지
+	@GetMapping(value= {"/notice/read", "/notice/read/{page}"})
+	public String noticeRead(SearchDto searchDto,
+		//조회할 페이지 번호, 두 번째 한 번에 가지고 올 데이터 수
+		@PathVariable("page") Optional<Integer> page, Model model) {
 		Pageable pageable = PageRequest.of(page.isPresent()?page.get():0, 3);
 		//조회 조건과 페이징 정보 파라미터로 넘겨서 Page<Notice> 객체를 반환
-		Page<Notice> notices = noticeService.getAdminNoticePage(searchDto, pageable);
-		model.addAttribute("notices",notices);//조회한 상품 데이터 및 페이징 정보 뷰에 전달
-		model.addAttribute("postSearchDto", searchDto);//페이지 전환 시 기존 검색 조건 유지한체
-		model.addAttribute("maxPage", 5);//페이지 하단에 보여줄 최대 개수
+		Page<Notice> readList = noticeService.getNoticePage(searchDto, pageable);
+			model.addAttribute("readList",readList);//조회한 상품 데이터 및 페이징 정보 뷰에 전달
+			model.addAttribute("readSearchDto", searchDto);//페이지 전환 시 기존 검색 조건 유지한체
+			model.addAttribute("maxPage", 5);//페이지 하단에 보여줄 최대 개수
 		return "notice/noticeReadList";
 	}
-	//수정 페이지 진입
-	@GetMapping(value="/notice/read/{noticeId}")
+	
+	//회원-공지 상세 조회 페이지
+	@GetMapping(value="/notice/view/{noticeId}")
 	public String noticeGetRead(@PathVariable("noticeId") Long noticeId, Model model) {
 		NoticeFormDto noticeFormDto = noticeService.getNotice(noticeId);
 		model.addAttribute("noticeFormDto",noticeFormDto);		
-		return "notice/noticeRead";
-		
+		return "notice/noticeRead";		
 	}
 	
 }
