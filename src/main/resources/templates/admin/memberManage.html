@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org"
   	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
   	  layout:decorate="~{layouts/layout2}">
-  	  <!-- 사용자 스크립트 추가 -->
+  	  
+<!-- 사용자 스크립트 추가 -->
 <th:block layout:fragment="script">
     <script th:inline="javascript">
 
@@ -23,8 +24,42 @@
         
     </script>
 </th:block>
-<div layout:fragment="content">
-<h4 class="fw-bold py-3 mb-4">회원관리</h4>
+
+<!-- css -->
+<th:block layout:fragment="css">
+	<style>
+		@font-face {
+			font-family: 'Pretendard';
+			font-weight: 300;
+			font-display: swap;
+			src: local('Pretendard Light'), url('./woff2/Pretendard-Light.woff2') format('woff2'), url('./woff/Pretendard-Light.woff') format('woff');
+		}
+		#content {
+			font-family: 'Pretendard';
+			font-weight: 300;
+			width: 75%;
+			margin: 0 auto;
+		}
+		#content > h4 {
+			text-align: center;
+			margin-top: 20px;
+			margin-bottom: 40px;
+		}
+		.card {
+			clear: both;
+		}
+		.table-responsive {
+			margin: 20px;
+		}
+		.table > thead > tr {
+			text-align: center;
+		}
+	</style>
+</th:block>
+
+<!-- content -->
+<div layout:fragment="content" id="content">
+  <h4>회원관리</h4>
 	<!-- Basic Bootstrap Table -->
     <div class="card">
 		<div class="table-responsive text-nowrap">
@@ -32,7 +67,13 @@
 <!-- 			<form th:action="@{'/admin/memberManage/'+${page.number}}" role="form" method="get" th:object="{memberList}"> -->
 				<table class="table">
                     <thead>
-                      <tr><th>no</th><th>email</th><th>name</th><!-- <th>가입일</th> --><th>권한</th></tr>
+                      <tr>
+                        <th style="width: 5%;">no</th>
+                        <th style="width: 65%;">email</th>
+                        <th style="width: 15%;">name</th>
+                        <!-- <th>가입일</th> -->
+                        <th style="width: 15%;">권한</th>
+                      </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">                    							
                       <tr th:each="item, status:${member.getContent()}">

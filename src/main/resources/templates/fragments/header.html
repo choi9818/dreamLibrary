@@ -4,6 +4,17 @@
   	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
   	  layout:decorate="~{layouts/layout}">
 
+<th:block layout:fragment="css">
+	<style>
+		@font-face {
+			font-family: 'Pretendard';
+			font-weight: 300;
+			font-display: swap;
+			src: local('Pretendard Light'), url('./woff2/Pretendard-Light.woff2') format('woff2'), url('./woff/Pretendard-Light.woff') format('woff');
+		}
+	</style>
+</th:block>
+
 <div layout:fragment="header" id="header">
 
 <!-- Navbar main -->
@@ -19,7 +30,7 @@
     
     <!-- 로고 (see assets/css/demo/demo.css) -->
     <div class="navbar-brand app-brand demo py-0 me-4">
-      <a href="index.html" class="app-brand-link gap-2">
+      <a href="/" class="app-brand-link gap-2">
         <span class="app-brand-logo demo">
 			<img src="/img/logo.png" alt="logo" height="40" width="40">
 		</span>
@@ -41,7 +52,7 @@
 			<a href="/invalidate" style="color:#ffffff; font-size:16px; padding-right: 20px;">로그아웃</a>
 		</div> -->
       <!-- 로그인/회원가입 버튼 -->
-      <div class="navbar-nav align-items-lg-center ms-auto">
+      <div class="navbar-nav align-items-lg-center ms-auto" style="font-family: 'Pretendard'; font-weight: 300;">
       	<!-- Divider -->
         <!-- <div class="nav-item d-none d-lg-block text-big fw-light lh-1 opacity-25 me-3 ms-1">|</div> -->
 		<div>
@@ -49,11 +60,11 @@
 			<ul class="navbar-nav">
 				<li class="nav-item me-2" sec:authorize="isAnonymous()">
 					<a href="/member/login" class="nav-link">
-					<i class="tf-icons bx bx-user"></i>Login</a>
+					<i class="tf-icons bx bx-user"></i>&nbsp;Login</a>
 				</li>
 				<li class="nav-item" sec:authorize="isAnonymous()">
 					<a href="/member/new" class="nav-link">
-					<i class="tf-icons bx bx-group"></i>Join</a>
+					<i class="tf-icons bx bx-group"></i>&nbsp;Join</a>
 				</li>
 			</ul>
 		</div>
@@ -63,7 +74,7 @@
 				<li class="nav-item me-2" sec:authentication="name"></li>
 				<li class="nav-item me-2" sec:authorize="isAuthenticated()">
 					<a href="/member/logout" class="nav-link">
-					<i class="tf-icons bx bx-user"></i>logout</a>
+					<i class="tf-icons bx bx-user"></i>&nbsp;logout</a>
 				</li>
 			</ul>
 		</div>

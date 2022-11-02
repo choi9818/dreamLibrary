@@ -3,7 +3,18 @@
   	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
   	  layout:decorate="~{layouts/layout}">
 
-<div layout:fragment="searchBar" id="searchBar">
+<th:block layout:fragment="css">
+	<style>
+		@font-face {
+			font-family: 'Pretendard';
+			font-weight: 300;
+			font-display: swap;
+			src: local('Pretendard Light'), url('./woff2/Pretendard-Light.woff2') format('woff2'), url('./woff/Pretendard-Light.woff') format('woff');
+		}
+	</style>
+</th:block>
+
+<div layout:fragment="searchBar" id="searchBar" style="font-family: 'Pretendard'; font-weight: 300;">
 
 <!-- Navbar -->
 <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">

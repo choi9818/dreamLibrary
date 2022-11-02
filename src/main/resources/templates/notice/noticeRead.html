@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
   	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-  	  layout:decorate="~{layouts/layout2}">
+  	  layout:decorate="~{layouts/layout}">
 <!-- 사용자 스크립트 추가 -->
 <th:block layout:fragment="script">
     <script th:inline="javascript">
@@ -12,12 +12,34 @@
             }
             bindDomEvent();
         }); 
-        
     </script>
-</th:block>  	    	  
+</th:block>  	
+
+<!-- 사용자 css 추가 -->
+<th:block layout:fragment="css">
+	<style>
+		@font-face {
+			font-family: 'Pretendard';
+			font-weight: 300;
+			font-display: swap;
+			src: local('Pretendard Light'), url('./woff2/Pretendard-Light.woff2') format('woff2'), url('./woff/Pretendard-Light.woff') format('woff');
+		}
+		#content {
+			font-family: 'Pretendard';
+			font-weight: 300;
+			width: 75%;
+			margin: 0 auto;
+		}
+		#content > h4 {
+			text-align: center;
+			margin-top: 20px;
+			margin-bottom: 20px;
+		}
+    </style>
+</th:block>    	  
   	  
-<div layout:fragment="content">
-<h4 class="fw-bold py-3 mb-4">공지사항 상세</h4>
+<div layout:fragment="content" id="content">
+<h4>공지사항</h4>
 
 <!-- Basic Layout & Basic with Icons -->
 <div class="row">

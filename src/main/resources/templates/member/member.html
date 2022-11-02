@@ -2,9 +2,20 @@
 <html xmlns:th="http://www.thymeleaf.org"
   	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
   	  layout:decorate="~{layouts/layout2}">
+  	  
 <!-- 사용자 CSS 추가 -->
 <th:block layout:fragment="css">
     <style>
+    	@font-face {
+			font-family: 'Pretendard';
+			font-weight: 300;
+			font-display: swap;
+			src: local('Pretendard Light'), url('./woff2/Pretendard-Light.woff2') format('woff2'), url('./woff/Pretendard-Light.woff') format('woff');
+		}
+		#content {
+			font-family: 'Pretendard';
+			font-weight: 300;
+		}
         .fieldError {
             color: #bd2130;
         }
@@ -30,12 +41,12 @@
     </script>
 
 </th:block>  	  
-<div layout:fragment="content" align="center">
+<div layout:fragment="content" align="center" id="content">
 <form role="form" method="post" action="/member/new" th:object="${memberFormDto}">
 	<h4 class="fw-bold py-3 mb-4">회원가입</h4>		
         <div class="form-floating mb-3" align="center" style="width:350px;">
             <div class="input-group input-group-merge">
-            	<input type="email" th:field="*{email}" class="form-control" placeholder="eamil" style="height:50px;">
+            	<input type="email" th:field="*{email}" class="form-control" placeholder="email" style="height:50px;">
 				<span class="input-group-text"><i class='bx bx-envelope'></i></span>
 	        	<!-- <button class="btn btn-outline-primary" type="button" id="button-addon2">certify</button> -->
 	        </div>

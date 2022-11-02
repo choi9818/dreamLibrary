@@ -43,6 +43,23 @@
 </li>
 
  -->
+<!-- css -->
+<th:block layout:fragment="css">
+	<style>
+		@font-face {
+			font-family: 'Pretendard';
+			font-weight: 300;
+			font-display: swap;
+			src: local('Pretendard Light'), url('./woff2/Pretendard-Light.woff2') format('woff2'), url('./woff/Pretendard-Light.woff') format('woff');
+		}
+		@font-face {
+			font-family: 'Pretendard';
+			font-weight: 200;
+			font-display: swap;
+			src: local('Pretendard ExtraLight'), url('./woff2/Pretendard-ExtraLight.woff2') format('woff2'), url('./woff/Pretendard-ExtraLight.woff') format('woff');
+		}
+	</style>
+</th:block>
   	  
 <div layout:fragment="menu" id="menu">
 
@@ -71,7 +88,7 @@
 	<li class="menu-item active">
 	  <a href="/" class="menu-link">
 	    <i class="menu-icon tf-icons bx bx-home-circle"></i>
-	    <div data-i18n="Analytics">Home</div>
+	    <div data-i18n="Analytics" style="font-family: 'Pretendard'; font-weight: 300;">Home</div>
 	  </a>
 	</li>
 	
@@ -79,17 +96,17 @@
 	<li class="menu-item">
 	  <a href="javascript:void(0);" class="menu-link menu-toggle">
 	    <i class="menu-icon tf-icons bx bx-info-circle"></i>
-	    <div data-i18n="Layouts">Info</div>
+	    <div data-i18n="Layouts" style="font-family: 'Pretendard'; font-weight: 300;">Info</div>
 	  </a>
 	  <ul class="menu-sub">
 	    <li class="menu-item">
 	      <a href="/info/intro" class="menu-link">
-	        <div data-i18n="Without menu">도서관소개</div>
+	        <div data-i18n="Without menu" style="font-family: 'Pretendard'; font-weight: 200;">도서관소개</div>
 	      </a>
 	    </li>
 	    <li class="menu-item">
 	      <a href="/info/usetime" class="menu-link">
-	        <div data-i18n="Without menu">이용안내</div>
+	        <div data-i18n="Without menu" style="font-family: 'Pretendard'; font-weight: 200;">이용안내</div>
 	      </a>
 	    </li>
 	  </ul>
@@ -130,13 +147,13 @@
 	<li class="menu-item">
 	  <a a href="/notice/read" class="menu-link">
 	    <i class="menu-icon tf-icons bx bx-clipboard"></i>
-	    <div data-i18n="Basic">공지사항</div>
+	    <div data-i18n="Basic" style="font-family: 'Pretendard'; font-weight: 300;">공지사항</div>
 	  </a>
 	</li>
 	<li class="menu-item">
 	  <a href="/post/list" class="menu-link">
 	    <i class="menu-icon tf-icons bx bx-chat"></i>
-	    <div data-i18n="Basic">회원게시판</div>
+	    <div data-i18n="Basic" style="font-family: 'Pretendard'; font-weight: 300;">회원게시판</div>
 	  </a>
 	</li>
 	
@@ -147,22 +164,22 @@
     <li class="menu-item">
 	  <a href="javascript:void(0);" class="menu-link menu-toggle">
 	    <i class="menu-icon tf-icons bx bx-library"></i>
-	    <div data-i18n="Layouts">내 서재</div>
+	    <div data-i18n="Layouts" style="font-family: 'Pretendard'; font-weight: 300;">내 서재</div>
 	  </a>
 	  <ul class="menu-sub" sec:authorize="hasAnyAuthority('ROLE_USER')">
 	    <li class="menu-item">
 	      <a href="/mypage/member" class="menu-link">
-	        <div data-i18n="Without menu">내정보</div>
+	        <div data-i18n="Without menu" style="font-family: 'Pretendard'; font-weight: 200;">내정보</div>
 	      </a>
 	    </li>
 	    <li class="menu-item" >
 	      <a href="/inter" class="menu-link">
-	        <div data-i18n="Without menu">관심도서목록</div>
+	        <div data-i18n="Without menu" style="font-family: 'Pretendard'; font-weight: 200;">관심도서목록</div>
 	      </a>
 	    </li>
 	    <li class="menu-item">
 	      <a href="/reserv" class="menu-link">
-	        <div data-i18n="Without menu">예약도서목록</div>
+	        <div data-i18n="Without menu" style="font-family: 'Pretendard'; font-weight: 200;">예약도서목록</div>
 	      </a>
 	    </li>
 	  </ul>
@@ -175,23 +192,23 @@
 	<li class="menu-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
 	  <a href="/admin/memberManage" class="menu-link">
 	    <i class="menu-icon tf-icons bx bx-user"></i>
-	    <div data-i18n="Basic">회원관리</div>
+	    <div data-i18n="Basic" style="font-family: 'Pretendard'; font-weight: 300;">회원관리</div>
 	  </a>
 	</li>
 	<li class="menu-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
 	  <a href="javascript:void(0);" class="menu-link menu-toggle">
 	    <i class="menu-icon tf-icons bx bx-book"></i>
-	    <div data-i18n="Basic">도서관리</div>
+	    <div data-i18n="Basic" style="font-family: 'Pretendard'; font-weight: 300;">도서관리</div>
 	  </a>
 	  <ul class="menu-sub">
 	    <li class="menu-item">
 	      <a href="/admin/book/new" class="menu-link">
-	        <div data-i18n="Without menu">도서등록</div>
+	        <div data-i18n="Without menu" style="font-family: 'Pretendard'; font-weight: 200;">도서등록</div>
 	      </a>
 	    </li>
 	    <li class="menu-item">
 	      <a href="/admin/books" class="menu-link">
-	        <div data-i18n="Without menu">도서관리</div>
+	        <div data-i18n="Without menu" style="font-family: 'Pretendard'; font-weight: 200;">도서관리</div>
 	      </a>
 	    </li>
 	  </ul>
@@ -199,7 +216,7 @@
 	<li class="menu-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
 	  <a a href="/notice/list" class="menu-link">
 	    <i class="menu-icon tf-icons bx bx-clipboard"></i>
-	    <div data-i18n="Basic">공지사항관리</div>
+	    <div data-i18n="Basic" style="font-family: 'Pretendard'; font-weight: 300;">공지사항관리</div>
 	  </a>
 	</li>
 
