@@ -59,7 +59,7 @@ public class BookController {
 			return "book/bookForm";
 		}
 		
-		return "redirect:/book/bookMng";
+		return "redirect:/admin/books";
 	}
 	
 	/**
@@ -97,7 +97,7 @@ public class BookController {
 			return "book/bookForm";
 		}
 		
-		return "redirect:/book/bookMng";
+		return "redirect:/admin/books";
 	}
 	
 	/**

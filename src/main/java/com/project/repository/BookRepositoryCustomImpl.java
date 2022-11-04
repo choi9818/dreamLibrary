@@ -121,7 +121,8 @@ public class BookRepositoryCustomImpl implements BookRepositoryCustom {
 		
 		List<Book> content = queryFactory
 				.selectFrom(QBook.book)
-				.where(searchByLike(bookSearchDto.getSearchBy(), bookSearchDto.getSearchQuery()))
+				.where(searchByLike(bookSearchDto.getSearchBy(), bookSearchDto.getSearchQuery()),
+					   searchCategoryEq(bookSearchDto.getSearchCategory()))
 				.orderBy(QBook.book.isbn.desc())
 				.offset(pageable.getOffset())
 				.limit(pageable.getPageSize())
@@ -130,7 +131,8 @@ public class BookRepositoryCustomImpl implements BookRepositoryCustom {
 		long total = queryFactory
 				.select(Wildcard.count)
 				.from(QBook.book)
-				.where(searchByLike(bookSearchDto.getSearchBy(), bookSearchDto.getSearchQuery()))
+				.where(searchByLike(bookSearchDto.getSearchBy(), bookSearchDto.getSearchQuery()),
+					   searchCategoryEq(bookSearchDto.getSearchCategory()))
 				.fetchOne();
 		
 		return new PageImpl<>(content, pageable, total);

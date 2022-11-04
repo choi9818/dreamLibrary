@@ -196,22 +196,10 @@
 	  </a>
 	</li>
 	<li class="menu-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
-	  <a href="javascript:void(0);" class="menu-link menu-toggle">
+	  <a href="/admin/books" class="menu-link">
 	    <i class="menu-icon tf-icons bx bx-book"></i>
 	    <div data-i18n="Basic" style="font-family: 'Pretendard'; font-weight: 300;">도서관리</div>
 	  </a>
-	  <ul class="menu-sub">
-	    <li class="menu-item">
-	      <a href="/admin/book/new" class="menu-link">
-	        <div data-i18n="Without menu" style="font-family: 'Pretendard'; font-weight: 200;">도서등록</div>
-	      </a>
-	    </li>
-	    <li class="menu-item">
-	      <a href="/admin/books" class="menu-link">
-	        <div data-i18n="Without menu" style="font-family: 'Pretendard'; font-weight: 200;">도서관리</div>
-	      </a>
-	    </li>
-	  </ul>
 	</li>
 	<li class="menu-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
 	  <a a href="/notice/list" class="menu-link">

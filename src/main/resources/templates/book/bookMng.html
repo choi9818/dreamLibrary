@@ -16,9 +16,10 @@
 		function page(page) {
 			var searchBy = $("#searchBy").val();
 			var searchQuery = $("#searchQuery").val();
+			var searchCategory = $("#searchCategory").val();
 			
 			location.href="/admin/books/" + page 
-						 + "?searchBy=" + searchBy + "&searchQuery=" + searchQuery;
+						 + "?searchBy=" + searchBy + "&searchQuery=" + searchQuery + "&searchCategory=" + searchCategory;
 		}
 	</script>
 </th:block>
@@ -41,13 +42,40 @@
 		#content > h4 {
 			text-align: center;
 			margin-top: 20px;
-			margin-bottom: 40px;
+		}
+		.regBtn {
+			float: right;
+			margin: 0px 20px 20px 20px;
+		}
+		.card {
+			clear: both;
 		}
 		.table-responsive {
 			margin: 20px;
 		}
+		.table {
+			width: 100%;
+		}
 		.table > thead > tr {
 			text-align: center;
+		}
+		.table-author {
+			width: 80px;
+			overflow:hidden;
+      		text-overflow:ellipsis;
+      		white-space:nowrap;
+		}
+		.table-publisher {
+			width: 100px;
+			overflow:hidden;
+      		text-overflow:ellipsis;
+      		white-space:nowrap;
+		}
+		.table-title {
+			width: 280px;
+			overflow:hidden;
+      		text-overflow:ellipsis;
+      		white-space:nowrap;
 		}
 		#smallSelect { width: 90px; margin-right: 5px; float: left; }
 		#smallInput { width: 250px; margin-right: 5px; float: left; }
@@ -57,31 +85,34 @@
 <!-- content -->
 <div layout:fragment="content" id="content">
   <h4>도서 관리</h4>
+  <div class="regBtn">
+    <a th:href="@{/admin/book/new}"><button type="button" class="btn btn-primary">등록</button></a>
+  </div>
   
   <div class="card">
-    <div class="table-responsive text-nowrap">
+    <div class="table-responsive">
       <form th:action="@{'/admin/books/' + ${books.number}}" role="form" method="get" th:object="${books}">
         <table class="table">
           <thead>
             <tr>
               <th style="width: 10%;">ISBN</th>
-              <th style="width: 10%;">카테고리</th>
-              <th style="width: 45%;">도서명</th>
-              <th style="width: 10%;">저자</th>
-              <th style="width: 10%;">출판사</th>
-              <th style="width: 10%;">출판일자</th>
-              <th style="width: 5%;">예약</th>
+              <!-- <th style="width: 15%;">카테고리</th> -->
+              <th style="width: 55%;">도서명</th>
+              <th style="width: 15%;">저자</th>
+              <th style="width: 20%;">출판사</th>
+              <!-- <th style="width: 10%;">출판일자</th> -->
+              <!-- <th style="width: 8%;">예약</th> -->
             </tr>
           </thead>
           <tbody>
             <tr th:each="book, status: ${books.getContent()}">
               <td th:text="${book.isbn}"></td>
-              <td th:text="${book.category}"></td>
-              <td><a th:href="'/admin/book/' + ${book.isbn}" th:text="${book.title}"></a></td>
-              <td th:text="${book.author}"></td>
-              <td th:text="${book.publisher}"></td>
-              <td th:text="${book.publishedDate}"></td>
-              <td th:text="3 - ${book.count}"></td>
+              <!-- <td th:text="${book.category}"></td> -->
+              <td><a th:href="'/admin/book/' + ${book.isbn}" class="table-title">[[${book.title}]]</a></td>
+              <td><div class="table-author">[[${book.author}]]</div></td>
+              <td><div class="table-publisher">[[${book.publisher}]]</div></td>
+              <!-- <td th:text="${book.publishedDate}"></td> -->
+              <!-- <td th:text="3 - ${book.count}"></td> --->
             </tr>
           </tbody>
         </table><br>
@@ -114,6 +145,28 @@
     
         <!-- 조회 -->
         <div th:object="${bookSearchDto}" class="pagination justify-content-center">
+          <select th:field="*{searchCategory}" class="form-select form-select-sm" id="smallSelect">
+            <option value="전체">전체</option>
+            <option value="소설">소설</option>
+            <option value="시/에세이">시/에세이</option>
+            <option value="인문">인문</option>
+            <option value="경제/경영">경제/경영</option>
+            <option value="가정/육아">가정/육아</option>
+            <option value="요리">요리</option>
+            <option value="건강">건강</option>
+            <option value="취미/실용/스포츠">취미/실용/스포츠</option>
+            <option value="자기계발">자기계발</option>
+            <option value="컴퓨터/IT">컴퓨터/IT</option>
+            <option value="정치/사회">정치/사회</option>
+            <option value="역사/문화">역사/문화</option>
+            <option value="종교">종교</option>
+            <option value="예술/대중문화">예술/대중문화</option>
+            <option value="기술/공학">기술/공학</option>
+            <option value="과학">과학</option>
+            <option value="청소년">청소년</option>
+            <option value="유아">유아</option>
+            <option value="어린이">어린이</option>
+          </select>
           <select th:field="*{searchBy}" class="form-select form-select-sm" id="smallSelect">
             <option value="title">도서명</option>
             <option value="isbn">ISBN</option>
@@ -125,6 +178,7 @@
           <button id="searchBtn" type="submit" class="btn btn-sm btn-primary">조회</button>
           <input type="hidden" th:value="${bookSearchDto.searchBy}" id="searchBy">
           <input type="hidden" th:value="${bookSearchDto.searchQuery}" id="searchQuery">
+          <input type="hidden" th:value="${bookSearchDto.searchCategory}" id="searchCategory">
         </div>
       </form>
     
