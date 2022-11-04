@@ -63,8 +63,8 @@
 	<!-- Basic Bootstrap Table -->
     <div class="card">
 		<div class="table-responsive text-nowrap">
-			<form th:action="@{/admin/memberManage}" role="form" method="get" th:object="${member}">
-<!-- 			<form th:action="@{'/admin/memberManage/'+${page.number}}" role="form" method="get" th:object="{memberList}"> -->
+<!--			<form th:action="@{/admin/memberManage}" role="form" method="get" th:object="${member}">
+ 			<form th:action="@{'/admin/memberManage/'+${page.number}}" role="form" method="get" th:object="{memberList}"> -->
 				<table class="table">
                     <thead>
                       <tr>
@@ -78,48 +78,35 @@
                     <tbody class="table-border-bottom-0">                    							
                       <tr th:each="item, status:${member.getContent()}">
                         <td th:text="${item.id}">no</td>
-                        <td><a th:href="'/admin/memberManage/'+${item.id}" th:text="${item.email}"></a></td>
+                        <td><a th:href="'/inter/interList/'+${item.email}" th:text="${item.email}"></a></td>
                         <td th:text="${item.name}">name</td>
                         <!-- <td text="">regTime</td> -->
                         <td th:text="${item.role}">role</td>                        
                       </tr><!-- 1row -->                                           
                     </tbody>
                   </table>
-                  <!-- 페이징 -->
-                  <!-- <div th:with="start=${(page.number/maxPage)*maxPage + 1}, end=(${(page.totalPages == 0) 
-        			? 1 : (start + (maxPage - 1) < page.totalPages 
-        			? start + (maxPage - 1) : page.totalPages)})" >
-        			<nav aria-label="Page navigation">
-            <ul class="pagination justify-content-center">
-
-                <li class="page-item" th:classappend="${page.first}?'disabled'">
-                    <a th:onclick="'javascript:page(' + ${page.number - 1} + ')'" aria-label='Previous' class="page-link">
-                        <span aria-hidden='true'>Previous</span>
-                    </a>
-                </li>
-
-                <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${page.number eq page-1}?'active':''">
-                    <a th:onclick="'javascript:page(' + ${page - 1} + ')'" th:inline="text" class="page-link">[[${page}]]</a>
-                </li>
-
-                <li class="page-item" th:classappend="${page.last}?'disabled'">
-                    <a th:onclick="'javascript:page(' + ${page.number + 1} + ')'" aria-label='Next' class="page-link">
-                        <span aria-hidden='true'>Next</span>
-                    </a>
-                </li>
-
-            </ul>
-            </nav>
-        </div> -->
-		<!-- 검색 -->
-		<!-- <div class="pagination justify-content-center" th:object="${searchDto}" style="width:50%; margin: auto;" align="center">
-        	<select th:field="*{searchByEmail}" class="form-control" style="width:auto;">
-                <option value="email">이메일</option>
-            </select>
-            <input th:field="*{searchQueryMember}" type="text" class="form-control" placeholder="이메일을 입력해주세요">
-            <button id="searchBtn" type="button" class="btn btn-primary">검색</button>
-        </div> -->
-			</form>
+   <!-- 페이징 -->
+   <div th:with="start=${(member.number/maxPage)*maxPage + 1}, end=(${(member.totalPages == 0) ? 1 : (start + (maxPage - 1) < member.totalPages ? start + (maxPage - 1) : member.totalPages)})">
+    <nav aria-label="Page navigation">
+      <ul class="pagination justify-content-center">
+        <li class="page-item prev" th:classappend="${member.number eq 0}?'disabled':''">
+          <a th:href="@{'/admin/memberManage/' + ${member.number-1}}" class="page-link">
+            <i class="bx bx-chevron-left"></i>
+          </a>
+        </li>
+        <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${member.number eq page-1}?'active':''">
+          <a th:href="@{'/admin/memberManage/' + ${page-1}}" th:inline="text" class="page-link">[[${page}]]</a>
+        </li>
+        <li class="page-item" th:classappend="${member.number+1 ge member.totalPages}?'disabled':''">
+          <a th:href="@{'/admin/memberManage/' + ${member.number+1}}" class="page-link">
+            <i class="bx bx-chevron-right"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+		
+			<!-- </form> -->
 		</div>
 	</div>
 </div>  	  

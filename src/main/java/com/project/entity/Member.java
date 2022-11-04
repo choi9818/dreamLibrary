@@ -74,4 +74,11 @@ public class Member{
 		return member;
 	}
 
+	public void updateMember(MemberFormDto memberFormDto, PasswordEncoder passwordEncoder) {
+		String password = passwordEncoder.encode(memberFormDto.getPassword());
+		this.password = password;
+		this.name = memberFormDto.getName();
+		this.phone = memberFormDto.getPhone();
+	}
+
 }

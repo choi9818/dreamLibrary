@@ -26,25 +26,14 @@ import lombok.RequiredArgsConstructor;
 public class MemberManageService {
 	private final MemberRepository memberRepository;
 	
-	//회원관리 페이징/검색시 사용
-//	@Transactional(readOnly = true)
-//	public Page<Member> getManagePage(SearchDto searchDto, Pageable pageable){
-//		return memberRepository.getManagePage(searchDto, pageable);
-//	}
-	
 	public Page<MemberFormDto> getManagePage(Pageable pageable){
 		Page<Member>  members = memberRepository.getMembers(pageable);
 		Page<MemberFormDto> dtoPage = members.map(new Function<Member, MemberFormDto>() {
 		    public MemberFormDto apply(Member entity) {	
-
 		        return MemberFormDto.of(entity);
 		    }
-		});	
-		
-		return dtoPage;
-		
-		
-		
+		});			
+		return dtoPage;		
 	}
 	
 	//가입한 회원 리스트 조회
@@ -54,8 +43,5 @@ public class MemberManageService {
 		MemberFormDto memberFormDto = MemberFormDto.of(member);
 		return memberFormDto;
 	}
-
-
-
 
 }

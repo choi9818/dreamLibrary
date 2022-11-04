@@ -1,9 +1,5 @@
 package com.project.service;
 
-import java.util.Optional;
-
-import javax.persistence.EntityNotFoundException;
-
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,7 +7,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.project.dto.MemberFormDto;
 import com.project.entity.Member;
 import com.project.repository.MemberRepository;
 

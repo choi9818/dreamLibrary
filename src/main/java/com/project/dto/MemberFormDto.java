@@ -42,8 +42,7 @@ public class MemberFormDto {
 	//@Pattern(regexp = "^01(?:0|1|[6-9])[.-]?(\\d{3}|\\d{4})[.-]?(\\d{4})$"
 	//		, message = "10 ~ 11 자리의 숫자만을 입력 가능합니다.")
 	private String phone;
-	
-	
+		
 	private Role role;
 	@NotNull(message="생년월일은 필수 입력 값입니다.")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -55,10 +54,7 @@ public class MemberFormDto {
 		return modelMapper.map(member, MemberFormDto.class);
 	}
 
-	public MemberFormDto(Long id, String name,
-			 String email,	
-			 Role role			) {
-		
+	public MemberFormDto(Long id, String name, String email, Role role) {		
 		this.id = id;
 		this.name = name;
 		this.email = email;	
