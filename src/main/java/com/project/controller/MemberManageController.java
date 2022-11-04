@@ -21,14 +21,14 @@ import lombok.RequiredArgsConstructor;
 public class MemberManageController {
 	private final MemberManageService memberManageService;
 
-	@GetMapping(value = {"/admin/memberManage","/admin/memberManage/{page}"})
-	public String adminMemberManage(@PathVariable("page") Optional<Integer> page, Model model) {
-		Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0,10);
-		Page<MemberFormDto> member = memberManageService.getManagePage(pageable);
-		model.addAttribute("member", member);
-		model.addAttribute("page", pageable.getPageNumber());
-		model.addAttribute("maxPage",5);
-		return "admin/memberManage"; 
-	}
+//	@GetMapping(value = {"/admin/memberManage","/admin/memberManage/{page}"})
+//	public String adminMemberManage(@PathVariable("page") Optional<Integer> page, Model model) {
+//		Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0,10);
+//		Page<MemberFormDto> member = memberManageService.getManagePage(pageable);
+//		model.addAttribute("member", member);
+//		model.addAttribute("page", pageable.getPageNumber());
+//		model.addAttribute("maxPage",5);
+//		return "admin/memberManage"; 
+//	}
 	
 }

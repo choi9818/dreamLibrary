@@ -89,5 +89,18 @@ public class ReservService {
 		reservBook.cancel();
 		reservBookRepository.delete(reservBook);
 	}
-
+	
+	/**
+	 * 회원관리 - 예약도서목록 보기
+	 * 
+	 * */
+	@Transactional(readOnly = true)
+	public Page<ReservListDto> getAdminReservList(Long id, Pageable pageable) {
+		
+		Member member = memberRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+		Reserv reserv = reservRepository.findByMemberId(id);
+		Page<ReservListDto> reservBooks = reservBookRepository.findReservListDtoList(reserv.getId(), pageable);
+		
+		return reservBooks;
+	}
 }

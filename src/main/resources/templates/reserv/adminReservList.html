@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  	  layout:decorate="~{layouts/layout2}">
+<head>
+	<meta name="_csrf" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+  	  
+<!-- 사용자 스크립트 추가 -->
+<!-- 사용자 css 추가 -->
+<th:block layout:fragment="css">
+	<style>
+		@font-face {
+			font-family: 'Pretendard';
+			font-weight: 300;
+			font-display: swap;
+			src: local('Pretendard Light'), url('./woff2/Pretendard-Light.woff2') format('woff2'), url('./woff/Pretendard-Light.woff') format('woff');
+		}
+		#content {
+			font-family: 'Pretendard';
+			font-weight: 300;
+			width: 75%;
+			margin: 0 auto;
+		}
+		#content > h4 {
+			text-align: center;
+			margin-top: 10px;
+			margin-bottom: 30px;
+		}
+		.table-responsive {
+			margin: 20px;
+		}
+		.table > thead > tr {
+			text-align: center;
+		}
+		#bookImg {
+			width: 100%;
+			height: auto;
+		}
+	</style>
+</th:block>
+
+<!-- content -->
+<div layout:fragment="content" id="content">
+  <h4>예약도서목록</h4>
+  
+  <div class="card">
+    <div class="table-responsive">
+      <form>
+        <table class="table">
+          <thead>
+	        <tr>
+	          <th style="width: 15%;">이미지</th>
+	          <th style="width: 40%;">도서명</th>
+	          <th style="width: 15%;">저자</th>
+	          <th style="width: 15%;">출판사</th>
+	          <th style="width: 15%;">예약일자</th>
+	        </tr>
+	      </thead>
+		  <tbody>
+	        <tr th:each="reservBook : ${reservBooks.getContent()}">
+	          <td class="text-center align-middle">
+	            <a th:href="'/search/bookdtl/' + ${reservBook.isbn}">
+	              <img id="bookImg" th:src="${reservBook.imgUrl}" th:alt="${reservBook.title}"/>
+	            </a>
+	          </td>
+	          <td th:text=${reservBook.title}></td>
+	          <td th:text=${reservBook.author}></td>
+	          <td th:text=${reservBook.publisher}></td>
+	          <td th:text=${reservBook.reservDate}></td>
+	        </tr>
+	      </tbody>
+        </table><br>
+        
+	    <div th:with="start=${(reservBooks.number/maxPage)*maxPage + 1}, end=(${(reservBooks.totalPages == 0) ? 1 : (start + (maxPage - 1) < reservBooks.totalPages ? start + (maxPage - 1) : reservBooks.totalPages)})">
+	      <nav aria-label="Page navigation">
+	        <ul class="pagination justify-content-center">
+	          <li class="page-item prev" th:classappend="${reservBooks.number eq 0}?'disabled':''">
+	            <a th:href="@{'/reserv/' + ${reservBooks.number-1}}" class="page-link">
+	              <i class="bx bx-chevron-left"></i>
+	            </a>
+	          </li>
+	          <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${reservBooks.number eq page-1}?'active':''">
+	            <a th:href="@{'/reserv/' + ${page-1}}" th:inline="text" class="page-link">[[${page}]]</a>
+	          </li>
+	          <li class="page-item" th:classappend="${reservBooks.number+1 ge reservBooks.totalPages}?'disabled':''">
+	            <a th:href="@{'/reserv/' + ${reservBooks.number+1}}" class="page-link">
+	              <i class="bx bx-chevron-right"></i>
+	            </a>
+	          </li>
+	        </ul>
+	      </nav>
+	    </div>
+      </form>
+    </div>
+  </div>
+
+</div>
+</html>

@@ -24,24 +24,24 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 @RequiredArgsConstructor
 public class MemberManageService {
-	private final MemberRepository memberRepository;
-	
-	public Page<MemberFormDto> getManagePage(Pageable pageable){
-		Page<Member>  members = memberRepository.getMembers(pageable);
-		Page<MemberFormDto> dtoPage = members.map(new Function<Member, MemberFormDto>() {
-		    public MemberFormDto apply(Member entity) {	
-		        return MemberFormDto.of(entity);
-		    }
-		});			
-		return dtoPage;		
-	}
-	
-	//가입한 회원 리스트 조회
-	@Transactional(readOnly = true)
-	public MemberFormDto getMember(Long memberId) {
-		Member member = memberRepository.findById(memberId).orElseThrow(EntityNotFoundException::new);
-		MemberFormDto memberFormDto = MemberFormDto.of(member);
-		return memberFormDto;
-	}
+//	private final MemberRepository memberRepository;
+//	
+//	public Page<MemberFormDto> getManagePage(Pageable pageable){
+//		Page<Member>  members = memberRepository.getMembers(pageable);
+//		Page<MemberFormDto> dtoPage = members.map(new Function<Member, MemberFormDto>() {
+//		    public MemberFormDto apply(Member entity) {	
+//		        return MemberFormDto.of(entity);
+//		    }
+//		});			
+//		return dtoPage;		
+//	}
+//	
+//	//가입한 회원 리스트 조회
+//	@Transactional(readOnly = true)
+//	public MemberFormDto getMember(Long memberId) {
+//		Member member = memberRepository.findById(memberId).orElseThrow(EntityNotFoundException::new);
+//		MemberFormDto memberFormDto = MemberFormDto.of(member);
+//		return memberFormDto;
+//	}
 
 }

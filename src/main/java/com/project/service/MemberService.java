@@ -1,5 +1,9 @@
 package com.project.service;
 
+import javax.persistence.EntityNotFoundException;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -7,6 +11,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.project.dto.MemberFormDto;
+import com.project.dto.MemberSearchDto;
 import com.project.entity.Member;
 import com.project.repository.MemberRepository;
 
@@ -51,5 +57,24 @@ public class MemberService implements UserDetailsService{
      * UserDetails 회원의 정보를 담기 위해 사용
        인터페이스를 직접 구현하거나 스프링 시큐리티에서 제공하는 User 클래스 사용*/
     }
+	
+	/**
+	 * 회원 관리
+	 * 
+	 * */
+	@Transactional(readOnly = true)
+	public Page<Member> getAdminMemberPage(MemberSearchDto memberSearchDto, Pageable pageable) {
+		return memberRepository.getAdminMemberPage(memberSearchDto, pageable);
+	}
+	
+	/**
+	 * 회원 상세
+	 * */
+	@Transactional(readOnly = true)
+	public MemberFormDto getMemberDtl(Long MemberId) {
+		Member member = memberRepository.findById(MemberId).orElseThrow(EntityNotFoundException::new);
+		MemberFormDto memberFormDto = MemberFormDto.of(member);
+		return memberFormDto;
+	}
 
 }

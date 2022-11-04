@@ -90,5 +90,29 @@ public class InterController {
 		
 		return new ResponseEntity<Long>(interBookId, HttpStatus.OK);
 	}
+	
+	/**
+	 * 회원관리 - 관심도서목록 보기
+	 * 
+	 * */
+	@GetMapping(value = {"/admin/member/inter/{memberId}", "/admin/member/inter/{memberId}/{page}"})
+	public String interManage(@PathVariable("memberId") Long memberId,
+							  @PathVariable("page") Optional<Integer> page,
+							  Model model) {
+		try {
+			
+			Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
+			Page<InterListDto> interBooks = interService.getAdminInterList(memberId, pageable);
+			
+			model.addAttribute("interBooks", interBooks);
+			model.addAttribute("page", pageable.getPageNumber());
+			model.addAttribute("maxPage", 5);
+			
+		} catch(Exception e) {
+			return "inter/error";
+		}
+		
+		return "inter/adminInterList";
+	}
 
 }

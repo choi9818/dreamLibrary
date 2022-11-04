@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  	  layout:decorate="~{layouts/layout2}">
+
+<!-- 사용자 스크립트 추가 -->
+<!-- 사용자 css 추가 -->
+<th:block layout:fragment="css">
+	<style>
+		@font-face {
+			font-family: 'Pretendard';
+			font-weight: 300;
+			font-display: swap;
+			src: local('Pretendard Light'), url('./woff2/Pretendard-Light.woff2') format('woff2'), url('./woff/Pretendard-Light.woff') format('woff');
+		}
+		#content {
+			font-family: 'Pretendard';
+			font-weight: 300;
+			width: 75%;
+			margin: 0 auto;
+		}
+		#content > h4 {
+			text-align: center;
+			margin-top: 20px;
+			margin-bottom: 40px;
+		}
+		.table-responsive {
+			margin: 20px 100px 20px 100px;
+		}
+		.table {
+			margin: 0 auto;
+			width: 80%;
+		}
+		#exampleFormControlReadOnlyInput1 {
+			background-color: white;
+			font-family: 'Pretendard';
+			font-weight: 300;
+		}
+	</style>
+</th:block>
+	
+<!-- content -->
+<div layout:fragment="content" id="content">
+  <h4>회원 관리</h4>
+  
+  <div class="card">
+    <div class="table-responsive">
+      <form role="form" method="get" th:object="${member}">
+        <input type="hidden" id="memberId" th:value="${member.id}">
+        <table class="table table-borderless">
+          <tbody>
+            <tr>
+              <td><label class="col-form-label">이메일</label></td>
+              <td><input type="text" class="form-control" id="exampleFormControlReadOnlyInput1" th:value="${member.email}" readonly></td>
+            </tr>
+            <tr>
+              <td><label class="col-form-label">이름</label></td>
+              <td><input type="text" class="form-control" id="exampleFormControlReadOnlyInput1" th:value="${member.name}" readonly></td>
+            </tr>
+            <tr>
+              <td><label class="col-form-label">권한</label></td>
+              <td><input type="text" class="form-control" id="exampleFormControlReadOnlyInput1" th:value="${member.role}" readonly></td>
+            </tr>
+            <tr>
+              <td><label class="col-form-label">전화번호</label></td>
+              <td><input type="text" class="form-control" id="exampleFormControlReadOnlyInput1" th:value="${member.phone}" readonly></td>
+            </tr>
+            <tr>
+              <td><label class="col-form-label">생일</label></td>
+              <td><input type="text" class="form-control" id="exampleFormControlReadOnlyInput1" th:value="${member.birthday}" readonly></td>
+            </tr>
+            <tr>
+              <td><label class="col-form-label">예약도서</label></td>
+              <td><a th:href="'/admin/member/reserv/' + ${member.id}"><i class="bx bx-edit"></i>&nbsp;예약도서목록보기</a></td>
+            </tr>
+            <tr>
+              <td><label class="col-form-label">관심도서</label></td>
+              <td><a th:href="'/admin/member/inter/' + ${member.id}"><i class="bx bx-heart"></i>&nbsp;관심도서목록보기</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+    </div>
+  </div>
+
+</div>
+</html>

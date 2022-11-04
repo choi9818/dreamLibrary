@@ -9,8 +9,10 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import com.project.entity.Member;
 
 
-public interface MemberRepository extends JpaRepository<Member, Long>
-	, QuerydslPredicateExecutor<Member>, PageRepositoryCustom{
+public interface MemberRepository extends JpaRepository<Member, Long>, 
+										  QuerydslPredicateExecutor<Member>, 
+										  MemberRepositoryCustom,
+										  PageRepositoryCustom{
 	Member findByEmail(String email);//중복 회원 검사 위한 쿼리문	
 	
 	//회원관리 페이지에 리스트 뽑아내는 쿼리

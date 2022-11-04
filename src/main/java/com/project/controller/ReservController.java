@@ -89,5 +89,31 @@ public class ReservController {
 		
 		return new ResponseEntity<Long>(reservBookId, HttpStatus.OK);
 	}
+	
+	/**
+	 * 회원관리 - 예약도서목록 보기
+	 * 
+	 * */
+	@GetMapping(value = {"/admin/member/reserv/{memberId}", "/admin/member/reserv/{memberId}/{page}"})
+	public String reservManage(@PathVariable("memberId") Long memberId,
+							   @PathVariable("page") Optional<Integer> page,
+							   Model model) {
+		try {
+			
+			Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
+			Page<ReservListDto> reservBooks = reservService.getAdminReservList(memberId, pageable);
+			
+			model.addAttribute("reservBooks", reservBooks);
+			model.addAttribute("page", pageable.getPageNumber());
+			model.addAttribute("maxPage", 5);
+			
+		} catch(Exception e) {
+			return "reserv/error";
+		}
+		
+		
+		return "reserv/adminReservList";
+	}
+	
 
 }

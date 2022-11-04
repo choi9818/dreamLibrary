@@ -93,5 +93,19 @@ public class InterService {
 		InterBook interBook = interBookRepository.findById(interBookId).orElseThrow(EntityNotFoundException::new);
 		interBookRepository.delete(interBook);
 	}
+	
+	/**
+	 * 회원관리 - 관심도서목록 보기
+	 * 
+	 * */
+	@Transactional(readOnly = true)
+	public Page<InterListDto> getAdminInterList(Long id, Pageable pageable) {
+		
+		Member member = memberRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+		Inter inter = interRepository.findByMemberId(id);
+		Page<InterListDto> interBooks = interBookRepository.findInterListDtoList(inter.getId(), pageable);
+		
+		return interBooks;
+	}
 
 }
