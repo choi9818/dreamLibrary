@@ -81,11 +81,14 @@ public class NoticeService {//공지 등록하는 NoticeService 클래스
 		return notice.getId();
 	}	
 	
+	public void deleteNotide(Long noticeId) {
+		Notice notice = noticeRepository.getNoticeIdAndNoticeImgId(noticeId);
+		noticeRepository.delete(notice);
+	}
 	
 //	public void deleteNotice(Long noticeId, Long noticeImgId) {
 //		List<NoticeImg> notice = noticeImgRepository.findByNoticeIdAndNoticeImgId(noticeId, noticeImgId);
 //		noticeImgRepository.deleteAll(notice);
 //    }
-
 	 
 }

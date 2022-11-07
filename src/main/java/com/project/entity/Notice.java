@@ -37,26 +37,6 @@ public class Notice extends BaseEntity {
 	@Lob
 	private String content;			// 내용
 	
-//	@OneToOne(mappedBy = "notice", fetch = FetchType.LAZY)
-//	@JoinColumn(name = "notice_img_id")
-//	private NoticeImg noticeImg;
-//	/*
-//	 * 한가지 공지사항에 여러 이미지가 있음
-//	 * 	-> postImg : post = 다 : 일
-//	 * 	-> Many To One
-//	 * 
-//	 * */
-	
-	
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	private Member member;			// 작성자(member의 name
-//		/*
-//		 * 회원 한명이 여러 개의 공지사항을 작성할 수 있음
-//		 * 	-> Notice : Member = 다 : 일
-//		 * 	-> ManyToOne
-//		 *  
-//		 * */
-//	
 	//공지 업데이트 로직
 	public void updateNotice(NoticeFormDto noticeFormDto) {
 		this.title = noticeFormDto.getTitle();

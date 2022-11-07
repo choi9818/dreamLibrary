@@ -36,6 +36,12 @@ public class PostService {
 	//게시물 저장
 	public Long savePost(PostFormDto postFormDto, MultipartFile multipartFile) throws Exception {
 		Post post = postFormDto.createPost();
+		System.out.println("postFormDto>>>>"+postFormDto);
+		System.out.println("email===="+postFormDto.getEmail());
+		System.out.println("post>>"+post);
+		Member member = memberRepository.findByEmail(postFormDto.getEmail());
+		System.out.println("member>>"+member);
+		post.setMember(member);
 		postRepository.save(post);
 		
 		PostImg postImg = new PostImg();
@@ -43,6 +49,7 @@ public class PostService {
 		postImgService.savePostImg(postImg, multipartFile);
 		return post.getId();
 	}
+	
 	//게시물 불러옴
 	@Transactional(readOnly = true)
 	public PostFormDto getPost(Long postId) {
@@ -58,33 +65,19 @@ public class PostService {
 		return postFormDto;		
 	}
 	
-//	@Transactional(readOnly = true)
-//	public PostFormDto validatePostWriter(Long postId, String email) {
-//		//boolean isAuthToEdit = false;
-//		Member postMember = memberRepository.findByEmail(email);//로그인한 회원 조회
-//		Post post = postRepository.findById(postId).orElseThrow(EntityNotFoundException::new);
-//		Member savedMember = post.getMember();
-//		//String savedMember = post.getCreatedBy();
-//		//getEmail().getName();//게시글 저정한 회원 조회
-//		if(!StringUtils.equals(postMember.getEmail(),savedMember.getEmail())) {
-//			//로그인 회원과 포스트 저장한 회원 다르면 false
-//		}
-//		List<PostImg> postImgList = postImgRepository.findByPostIdOrderByIdAsc(postId);
-//		List<PostImgDto> postImgDtoList = new ArrayList<>();
-//		for(PostImg postImg:postImgList) {
-//			PostImgDto postImgDto = PostImgDto.of(postImg);
-//			postImgDtoList.add(postImgDto);
-//		}
-//		Post postEx = postRepository.findById(postId).orElseThrow(EntityNotFoundException::new);
-//		PostFormDto postFormDto = PostFormDto.of(postEx);
-//		postFormDto.setPostImgDtoList(postImgDtoList);
-//		return postFormDto;		
-//	}
-//	
 	@Transactional(readOnly = true)
 	public Page<Post> getPostPage(PostSearchDto postSearchDto, Pageable Pageable) {
-		return postRepository.getPostPage(postSearchDto, Pageable);
-		
+		return postRepository.getPostPage(postSearchDto, Pageable);		
 	}
-	
+	public Long updatePost(PostFormDto postFormDto, List<MultipartFile> postImgFileList) throws Exception {
+		Post post = postRepository.findById(postFormDto.getId())
+				.orElseThrow(EntityNotFoundException::new);
+		post.updatePost(postFormDto);
+		List<Long> postImgIds = postFormDto.getPostImgIds();
+		for(int i = 0; i < postImgFileList.size();i++) {
+			//공지 이미지 업뎃 위해서 updateNoticeImg() 메소드에 공지 이미지 아이디와 공지 이미지 파일 정보를 파라미터로 전달
+			postImgService.updatePostImg(postImgIds.get(i), postImgFileList.get(i));
+		}
+		return post.getId();
+	}
 }

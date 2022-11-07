@@ -90,19 +90,26 @@ public class NoticeController {
 		return "redirect:/notice/list";
 	}
 	
-//	//공지 삭제 
+	//공지 삭제 
 //	@DeleteMapping(value = "/notice/{noticeId}")
 //	public ResponseEntity<Long> deleteNotice(@PathVariable("noticeId") Long noticeId, Long noticeImgId) {
 //		noticeService.deleteNotice(noticeId, noticeImgId);
 //		return new ResponseEntity<Long>(noticeId, HttpStatus.OK);
 //	}
-//	
+	
+	@DeleteMapping(value = "/notice/{noticeId}")
+	public @ResponseBody ResponseEntity<Long> deleteNotice(@PathVariable("noticeId") Long noticeId) {
+		noticeService.deleteNotide(noticeId);
+		System.out.println("noticeId"+noticeId);
+		return new ResponseEntity<Long>(noticeId, HttpStatus.OK);
+	}
+	
 	//관리자-공지 리스트 조회
 	@GetMapping(value= {"/notice/list", "/notice/list/{page}"})
 	public String noticeList(SearchDto searchDto,
 		//조회할 페이지 번호, 두 번째 한 번에 가지고 올 데이터 수
 		@PathVariable("page") Optional<Integer> page, Model model) {
-		Pageable pageable = PageRequest.of(page.isPresent()?page.get():0, 3);
+		Pageable pageable = PageRequest.of(page.isPresent()?page.get():0, 5);
 		//조회 조건과 페이징 정보 파라미터로 넘겨서 Page<Notice> 객체를 반환
 		Page<Notice> list = noticeService.getNoticePage(searchDto, pageable);
 			model.addAttribute("list",list);//조회한 상품 데이터 및 페이징 정보 뷰에 전달
@@ -116,7 +123,7 @@ public class NoticeController {
 	public String noticeRead(SearchDto searchDto,
 		//조회할 페이지 번호, 두 번째 한 번에 가지고 올 데이터 수
 		@PathVariable("page") Optional<Integer> page, Model model) {
-		Pageable pageable = PageRequest.of(page.isPresent()?page.get():0, 3);
+		Pageable pageable = PageRequest.of(page.isPresent()?page.get():0, 5);
 		//조회 조건과 페이징 정보 파라미터로 넘겨서 Page<Notice> 객체를 반환
 		Page<Notice> readList = noticeService.getNoticePage(searchDto, pageable);
 			model.addAttribute("readList",readList);//조회한 상품 데이터 및 페이징 정보 뷰에 전달

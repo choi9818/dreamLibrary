@@ -11,6 +11,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.project.dto.PostFormDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,7 +25,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "post")
-@Getter @Setter @ToString(exclude = {"member"})
+@Getter @Setter @ToString
 public class Post extends BaseEntity {
 	
 	@Id
@@ -45,6 +47,9 @@ public class Post extends BaseEntity {
 		 * 	-> ManyToOne
 		 *  
 		 * */
-
+	public void updatePost(PostFormDto postFormDto) {
+		this.title = postFormDto.getTitle();
+		this.content = postFormDto.getContent();
+	}
 
 }

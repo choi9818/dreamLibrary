@@ -17,11 +17,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Transactional
 public class NoticeImgService {//이미지 정보 저장하는 NoticeImgService 클래스
-	@Value("${imgLocation}")//프로퍼티스에 imgLocation 값 불러와서 imgLocation 변수에 넣음
-	private String imgLocation;
+	@Value("${noticeImgLocation}")//프로퍼티스에 imgLocation 값 불러와서 imgLocation 변수에 넣음
+	private String noticeImgLocation;
 	
-	private final NoticeImgRepository noticeImgRepository;
-	
+	private final NoticeImgRepository noticeImgRepository;	
 	private final FileService fileService;
 	
 	public void saveNoticeImg(NoticeImg noticeImg, MultipartFile noticeImgFile) throws Exception{
@@ -30,7 +29,7 @@ public class NoticeImgService {//이미지 정보 저장하는 NoticeImgService 
 		String imgUrl = "";
 		//파일 업로드
 		if(!StringUtils.isEmpty(oriImgName)) {
-			imgName = fileService.uploadFile(imgLocation, oriImgName,
+			imgName = fileService.uploadFile(noticeImgLocation, oriImgName,
 					  noticeImgFile.getBytes());
 			imgUrl ="/images/notice/"+imgName; //WebMvcConfig 설정경로+프로퍼티스 uploadPath 아래 notice 폴더
 		}		
@@ -47,11 +46,11 @@ public class NoticeImgService {//이미지 정보 저장하는 NoticeImgService 
 					.orElseThrow(EntityNotFoundException::new);
 			//기존 이미지 파일 삭제
 			if(!StringUtils.isEmpty(saveNoticeImg.getImgName())) {//기존에 등록된 공지 이미지 파일이 있을 경우 해당 파일 삭제
-				fileService.deleteFile(imgLocation+"/"+ saveNoticeImg.getImgName());
+				fileService.deleteFile(noticeImgLocation+"/"+ saveNoticeImg.getImgName());
 			}
 			String oriImgName = noticeImgFile.getOriginalFilename();
 			//업데이트한 공지 이미지 파일을 업로드
-			String imgName = fileService.uploadFile(imgLocation, oriImgName, noticeImgFile.getBytes());
+			String imgName = fileService.uploadFile(noticeImgLocation, oriImgName, noticeImgFile.getBytes());
 			String imgUrl = "/images/notice/"+imgName; 
 			//변경된 공지 이미지 정보 세팅
 			saveNoticeImg.updateNoticeImg(oriImgName, imgName, imgUrl);	

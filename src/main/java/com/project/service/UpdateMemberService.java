@@ -9,12 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.project.dto.MemberFormDto;
-import com.project.dto.UpdateMemberDto;
 import com.project.entity.Member;
 import com.project.repository.MemberRepository;
-import com.project.repository.NoticeImgRepository;
-import com.project.repository.NoticeRepository;
-import com.project.repository.UpdateMemberRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 @RequiredArgsConstructor
 public class UpdateMemberService {
-	private final UpdateMemberRepository updateMemberRepository;
 	private final MemberRepository memberRepository;
 	
 	//로그인된 사용자 불러오는 메소드
