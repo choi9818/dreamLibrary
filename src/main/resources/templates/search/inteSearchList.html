@@ -2,7 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org"
   	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
   	  layout:decorate="~{layouts/layout2}">
-  	  
 <head>
 	<meta name="_csrf" th:content="${_csrf.token}"/>
 	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
@@ -11,7 +10,6 @@
 <!-- 사용자 스크립트 추가 -->
 <th:block layout:fragment="script">
 	<script th:inline="javascript">
-		// 페이지 처리
 		$(document).ready(function() {
 			$("#searchBtn").on("click", function(e) {
 				e.preventDefault();
@@ -23,13 +21,12 @@
 			var searchBy = $("#searchBy").val();
 			var searchQuery = $("#searchQuery").val();
 			
-			location.href="/search/integrated/" + page 
-						 + "?searchBy=" + searchBy + "&searchQuery=" + searchQuery;
+			location.href = "/search/integrated/" + page + "?searchBy=" + searchBy + "&searchQuery=" + searchQuery;
 		}
 	</script>
 </th:block>
 
-<!-- 사용자 css 추가 -->
+<!-- css -->
 <th:block layout:fragment="css">
 	<style>
 		@font-face {
@@ -92,23 +89,21 @@
 <!-- content -->
 <div layout:fragment="content" id="content">
   <form th:action="@{'/search/integrated/' + ${books.number}}" role="form" method="get" th:object="${books}">
-    
+  
     <!-- 검색창 -->
     <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
     	 id="layout-navbar" th:object="${bookSearchDto}">
-      <select class="form-select" id="exampleFormControlSelect1" th:field="*{searchBy}">
+      <select th:field="*{searchBy}" class="form-select">
         <option value="title">도서명</option>
     	<option value="author">저자</option>
     	<option value="publisher">출판사</option>
       </select>
       <input type="text" class="form-control border-0 shadow-none" placeholder="검색어를 입력하세요" th:field="*{searchQuery}">
-      <input type="hidden" th:value="${bookSearchDto.searchBy}" id="searchBy">
-      <input type="hidden" th:value="${bookSearchDto.searchQuery}" id="searchQuery">
       <button type="submit" class="btn btn-icon me-2 btn-outline-primary" id="searchBtn">
         <span class="tf-icons bx bx-search fs-4 lh-0"></span>
       </button>
     </nav>
-
+    
     <!-- 도서목록 -->
     <div class="row row-cols-1 row-cols-md-3 g-4">
       <th:block th:each="book, status: ${books.getContent()}">
@@ -182,7 +177,7 @@
 	      </li>
 	    </ul>
 	  </nav>			  
-	</div>
+	</div>   
   </form>
 </div>
 

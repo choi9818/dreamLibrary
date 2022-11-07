@@ -90,7 +90,7 @@
     <!-- 조회기간 설정 -->
     <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar"
     	 th:object="${bookSearchDto}" style="width: 50%;">
-      <select class="form-select" id="exampleFormControlSelect1" th:field="*{searchDateType}">
+      <select class="form-select" th:field="*{searchDateType}">
         <option value="1w">1주</option>
         <option value="1m">1개월</option>
         <option value="6m">6개월</option>
