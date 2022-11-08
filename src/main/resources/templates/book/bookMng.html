@@ -77,8 +77,20 @@
       		text-overflow:ellipsis;
       		white-space:nowrap;
 		}
-		#smallSelect { width: 90px; margin-right: 5px; float: left; }
-		#smallInput { width: 250px; margin-right: 5px; float: left; }
+		.form-select { 
+			width: 90px; 
+			height: 30px;
+			margin-right: 5px; 
+			float: left; 
+			font-size: 0.8em;
+		}
+		.form-control { 
+			width: 250px; 
+			height: 30px;
+			margin-right: 5px; 
+			float: left; 
+			font-size: 0.8em;
+		}
 	</style>
 </th:block>
 
@@ -145,7 +157,7 @@
     
         <!-- 조회 -->
         <div th:object="${bookSearchDto}" class="pagination justify-content-center">
-          <select th:field="*{searchCategory}" class="form-select form-select-sm" id="smallSelect">
+          <select th:field="*{searchCategory}" class="form-select">
             <option value="전체">전체</option>
             <option value="소설">소설</option>
             <option value="시/에세이">시/에세이</option>
@@ -167,18 +179,15 @@
             <option value="유아">유아</option>
             <option value="어린이">어린이</option>
           </select>
-          <select th:field="*{searchBy}" class="form-select form-select-sm" id="smallSelect">
+          <select th:field="*{searchBy}" class="form-select">
             <option value="title">도서명</option>
             <option value="isbn">ISBN</option>
             <option value="author">저자</option>
             <option value="publisher">출판사</option>
             <option value="category">카테고리</option>
           </select>
-          <input th:field="*{searchQuery}" type="text" class="form-control form-control-sm" id="smallInput" placeholder=""/>
+          <input th:field="*{searchQuery}" type="text" class="form-control" placeholder=""/>
           <button id="searchBtn" type="submit" class="btn btn-sm btn-primary">조회</button>
-          <input type="hidden" th:value="${bookSearchDto.searchBy}" id="searchBy">
-          <input type="hidden" th:value="${bookSearchDto.searchQuery}" id="searchQuery">
-          <input type="hidden" th:value="${bookSearchDto.searchCategory}" id="searchCategory">
         </div>
       </form>
     
