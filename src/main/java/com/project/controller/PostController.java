@@ -2,6 +2,7 @@ package com.project.controller;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.project.dto.CommentDto;
 import com.project.dto.NoticeFormDto;
 import com.project.dto.PostFormDto;
+import com.project.dto.PostImgDto;
 import com.project.dto.PostSearchDto;
 import com.project.entity.Comment;
 import com.project.entity.Post;
@@ -69,6 +71,25 @@ public class PostController {
 		}
 		return "redirect:/post/list";
 	}
+	
+	@GetMapping(value="/post/modify/{postId}")
+	public String noticeModifyGet(@PathVariable("postId")Long postId, Model model) {
+		try {
+			PostFormDto postFormDto = postService.getPost(postId);
+			if(postFormDto.getPostImgDtoList() == null) {
+				System.out.println("postFormDto.getPostImgDtoList() null");
+			}
+			System.out.println("img######"+postFormDto.getPostImgDtoList());
+			System.out.println("img###### "+ postFormDto.getPostImgDtoList().size());
+			System.out.println("img######@@@"+postFormDto.getPostImgDtoList().get(0).getImgName());
+			model.addAttribute("postFormDto",postFormDto);
+		} catch (EntityNotFoundException e) {
+			model.addAttribute("errorMsg", "존재하지 않는 공지입니다.");
+			model.addAttribute("postFormDto",new PostFormDto());
+			return "post/postWrite";
+		}
+		return "post/postWrite";		
+	}
 	//게시물 수정
 	@PostMapping(value="/post/modify/{postId}")//########### 
 	public String noticeUpdate(@Valid PostFormDto postFormDto, BindingResult bindingResult,
@@ -84,31 +105,6 @@ public class PostController {
 		return "redirect:/post/list";
 	}
 	
-	//게시물 가지고 옴(원본)
-//	@GetMapping(value="/post/{postId}")
-//	public String postGet(@PathVariable("postId") Long postId, Model model, Principal principal) {
-//		boolean isAuthToEdit = false;
-//		try {
-//			PostFormDto postFormDto = postService.getPost(postId);
-//			System.out.println("postId >>>>>>>> "+postId);			
-//			String postEmail =	postRepository.getPostMemberEmail(postId);
-//			postFormDto.setEmail(postEmail);
-//			if(principal != null) {
-//				if(postFormDto.getEmail().equals(principal.getName()))
-//					isAuthToEdit = true;
-//				else isAuthToEdit = false;
-//			}
-//			System.out.println("postFormDto=="+postFormDto);
-//			System.out.println("isAuthToEdit >>>>>>>> "+isAuthToEdit);
-//			model.addAttribute("postFormDto",postFormDto);
-//			model.addAttribute("isAuthToEdit", isAuthToEdit);
-//		} catch (EntityNotFoundException e) {
-//			model.addAttribute("errorMsg", "존재하지 않는 게시물입니다.");
-//			model.addAttribute("postFormDto",new PostFormDto());
-//			return "post/postRead";
-//		}
-//		return "post/postRead";
-//	}
 	@GetMapping(value="/post/{postId}")
 	public String postGet(@PathVariable("postId") Long postId, Model model, Principal principal) {
 		boolean isAuthToEdit = false;

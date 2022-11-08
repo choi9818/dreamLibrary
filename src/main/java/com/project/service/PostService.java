@@ -69,6 +69,7 @@ public class PostService {
 	public Page<Post> getPostPage(PostSearchDto postSearchDto, Pageable Pageable) {
 		return postRepository.getPostPage(postSearchDto, Pageable);		
 	}
+	
 	public Long updatePost(PostFormDto postFormDto, List<MultipartFile> postImgFileList) throws Exception {
 		Post post = postRepository.findById(postFormDto.getId())
 				.orElseThrow(EntityNotFoundException::new);

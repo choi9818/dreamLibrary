@@ -50,7 +50,7 @@ public class PostImgService {
 			String oriImgName = postImgFile.getOriginalFilename();
 			//업데이트한 이미지 파일을 업로드
 			String imgName = fileService.uploadFile(postImgLocation, oriImgName, postImgFile.getBytes());
-			String imgUrl = "/images/notice/"+imgName; 
+			String imgUrl = "/images/post/"+imgName; 
 			//변경된 이미지 정보 세팅
 			savePostImg.updatePostImg(oriImgName, imgName, imgUrl);	
 		}

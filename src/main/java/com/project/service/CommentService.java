@@ -55,8 +55,8 @@ public class CommentService {
 	}
 	
 	//삭제
-	public void deletePostComment(Long postId) {
-		Comment comment = commentRepository.findById(postId).orElseThrow(EntityNotFoundException::new);
+	public void deletePostComment(Long commentId) {
+		Comment comment = commentRepository.findById(commentId).orElseThrow(EntityNotFoundException::new);
 		commentRepository.delete(comment);
 	}
 }
