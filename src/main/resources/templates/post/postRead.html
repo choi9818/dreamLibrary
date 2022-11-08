@@ -4,13 +4,17 @@
   	 xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
   	 layout:decorate="~{layouts/layout2}">
   	 <!-- 사용자 스크립트 추가 -->
+<head>
+	<meta name="_csrf" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
 <th:block layout:fragment="script">
     <script th:inline="javascript">
     function deleteComment(obj){
         var commentId = obj.dataset.id;
         var token = $("meta[name='_csrf']").attr("content");
         var header = $("meta[name='_csrf_header']").attr("content");
-
+	
         var url = "/post/comment/" + commentId;
 
         $.ajax({
@@ -20,11 +24,15 @@
                 /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
                 xhr.setRequestHeader(header, token);
             },
-            dataType : "json",
+           
             cache   : false,
             success  : function(result, status){
             	alert('댓글이 삭제되었습니다');
                 location.reload();
+            },
+            error  : function(jqXHR, status, error){
+            	
+                alert(jqXHR.reponseText);
             }
         });
     }
@@ -57,9 +65,9 @@
 <div class="col-xxl">
   <div class="card mb-4">
     <div class="card-body">
-      <form role="form" method="post" enctype="multipart/form-data" th:object="${postFormDto}">
+      <form id="postForm" role="form" method="post" enctype="multipart/form-data" th:object="${postFormDto}">
       <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-      <input type="hidden" th:field="*{id}">     
+      <input type="hidden" th:field="*{id}" id="postId">     
       <input type="hidden" th:field="*{email}">     
      <!--  <input type="hidden" name="email" value='<sec:authentication property="principal.username"/>'/> -->
      <!-- 이미지 -->        
@@ -131,7 +139,7 @@
 					<td th:text="${#temporals.format(comment.regTime, 'yyyy/MM/dd')}"></td>
 					<td>
 					<button type="button" class="btn me-2 btn-outline-danger btn-sm" 
-						onclick="deleteComment(this)" th:if="${isAuthToEdit}">X</button>
+						th:data-id="${comment.commentId}" onclick="deleteComment(this)" th:if="${isAuthToEdit}">X</button>
 					<!-- <i class='bx bx-message-square-x'></i> -->
 					</td>
 				</tr>

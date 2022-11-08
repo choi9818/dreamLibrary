@@ -5,10 +5,16 @@ import org.modelmapper.ModelMapper;
 import com.project.entity.NoticeImg;
 import com.project.entity.PostImg;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class PostImgDto {
 	private Long id;
 	private String imgName;			// 이미지 파일명	
@@ -20,4 +26,7 @@ public class PostImgDto {
 	public static PostImgDto of(PostImg postImg) {
 		return modelMapper.map(postImg, PostImgDto.class);
 	}
+
+	
+	
 }

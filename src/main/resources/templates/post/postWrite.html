@@ -84,7 +84,7 @@
 
         <div class="row mb-3" th:if="${not #lists.isEmpty(postFormDto.postImgDtoList)}">
         <label class="col-sm-2 col-form-label" for="formFileMultiple">file</label>
-            <div class="col-sm-10" th:each="postImgDto, status: ${postImgDto.postImgDtoList}">
+            <div class="col-sm-10" th:each="postImgDto, status: ${postFormDto.postImgDtoList}">
                 <div class="custom-file img-div">
                     <input class="form-control" type="file" id="formFileMultiple" name="postImgFile" multiple>
                     <input type="hidden" name="postImgIds" th:value="${postImgDto.id}">
